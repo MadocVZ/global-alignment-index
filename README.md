@@ -45,3 +45,4 @@ To compare alignment with the speed of growth:
 ---
 
 📖 Learn more: [global-alignment-index.com](https://global-alignment-index.com) *(coming soon)*  
+Contact: madocvzalk@gmail.com
