@@ -44,14 +44,14 @@ export default function Home() {
 
   return (
     <main className="mx-auto max-w-6xl p-6 space-y-8">
-      <header className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-semibold">Global Alignment Index <span className="text-sm opacity-70">v0.1</span></h1>
-          <p className="opacity-70">Factual signals; no opinions. A simple aggregate line + domain charts (mock data for now).</p>
-        </div>
-      </header>
+        <header className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-semibold tracking-tight">Global Alignment Index <span className="text-sm opacity-70">v0.1</span></h1>
+            <p className="opacity-70">Factual signals; no opinions. A simple aggregate line + domain charts (mock data for now).</p>
+          </div>
+        </header>
 
-      <section className="card p-4">
+      <section className="card p-4 shadow-sm">
         <h2 className="text-xl mb-2">Whole Alignment Trend (aggregate, mock)</h2>
         <div className="w-full h-64">
           <ResponsiveContainer width="100%" height="100%">
@@ -69,7 +69,7 @@ export default function Home() {
 
       <section className="grid md:grid-cols-2 gap-6">
         {Object.keys(data).map((k, i) => (
-          <div key={k} className="card p-4">
+          <div key={k} className="card p-4 shadow-sm">
             <h3 className="text-lg font-medium">{METRICS.find(m=>m.id===k)?.name}</h3>
             <div className="w-full h-56 mt-2">
               <ResponsiveContainer width="100%" height="100%">
