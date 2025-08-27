@@ -1,9 +1,28 @@
 'use client'
 import { useEffect, useMemo, useState } from 'react'
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts'
-import { METRICS } from '@/lib/metrics' 
+import { METRICS } from '@/lib/metrics'
 
 type Pt = { year: number; value: number }
+function unitFor(id: string): string {
+  switch (id) {
+    case 'internet_use':
+      return '%'
+    case 'co2_ppm':
+      return 'ppm'
+    case 'life_expectancy':
+      return 'years'
+    default:
+      return ''
+  }
+}
+
+function formatValue(id: string, v: number): string {
+  const u = unitFor(id)
+  if (id === 'internet_use') return `${Math.round(v)}%`
+  if (u) return `${Number(v.toFixed(2))} ${u}`
+  return String(Number(v.toFixed(2)))
+}
 async function load(id: string): Promise<Pt[]> {
   const res = await fetch(`/data/${id}.json`, { cache: 'no-store' })
   if (!res.ok) return []
@@ -58,7 +77,7 @@ export default function Home() {
             <LineChart data={aggregate}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="year" />
-              <YAxis />
+              <YAxis label={{ value: 'z-score (std units)', angle: -90, position: 'insideLeft' }} />
               <Tooltip />
               <Line type="monotone" dataKey="value" dot={false} />
             </LineChart>
@@ -73,13 +92,36 @@ export default function Home() {
             <h3 className="text-lg font-medium">{METRICS.find(m=>m.id===k)?.name}</h3>
             <div className="w-full h-56 mt-2">
               <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={data[k]}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="year" />
-                  <YAxis />
-                  <Tooltip />
-                  <Line type="monotone" dataKey="value" dot={false} />
-                </LineChart>
+                {(() => {
+                  const series = data[k].map(p => ({ year: p.year, [k]: p.value }))
+                  const metricIds = Object.keys(series[0] ?? {}).filter(id => id !== 'year')
+                  const mid = metricIds.length === 1 ? metricIds[0] : undefined
+                  return (
+                    <LineChart data={series}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="year" />
+                      {mid === 'internet_use' ? (
+                        <YAxis domain={[0,100]} tickFormatter={v => formatValue(mid, v)} />
+                      ) : mid ? (
+                        <YAxis tickFormatter={v => formatValue(mid, v)} />
+                      ) : (
+                        <YAxis />
+                      )}
+                      {mid ? (
+                        <Tooltip formatter={(val:any) => formatValue(mid, Number(val))} />
+                      ) : (
+                        <Tooltip />
+                      )}
+                      {mid ? (
+                        <Line type="monotone" dataKey={mid} dot={false} />
+                      ) : (
+                        metricIds.map(id => (
+                          <Line key={id} type="monotone" dataKey={id} dot={false} />
+                        ))
+                      )}
+                    </LineChart>
+                  )
+                })()}
               </ResponsiveContainer>
             </div>
             <p className="text-sm opacity-70 mt-2">{METRICS.find(m=>m.id===k)?.domain}</p>
