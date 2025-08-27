@@ -1,5 +1,6 @@
 import './globals.css'
 import type { Metadata } from 'next'
+import PreviewBadge from '@/components/PreviewBadge'
 
 export const metadata: Metadata = {
   title: 'Global Alignment Index — v0.1',
@@ -12,6 +13,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           {children}
         </div>
+        <PreviewBadge />
       </body>
     </html>
   )
