@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useMemo, useState } from 'react'
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts'
-import { METRICS } from '@/lib/metrics'
+import { METRICS } from '@/lib/metrics' 
 
 type Pt = { year: number; value: number }
 async function load(id: string): Promise<Pt[]> {
