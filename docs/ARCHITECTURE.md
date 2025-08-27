@@ -24,8 +24,30 @@ This repo powers the **Global Alignment Index (GAI)**, a factual, opinion-free d
 - **CI/CD**: GitHub Actions + Vercel → every PR gets a Preview URL; `main` → Production.
 
 ## Imports & Paths
+## Why this matters (plain language)
 
-- Use the root alias **`@/…`** for imports instead of relative paths.  
-  Example:
-  ```ts
-  import { METRICS } from '@/lib/metrics'
+- This isn’t just “a Next.js app.” GAI aims to make alignment *visible and trustworthy*.
+- We keep it:
+  - **Clear** (factual metrics, direction-of-better stated),
+  - **Trustworthy** (transparent methods + changelog),
+  - **Reversible** (small PRs, fast previews, CI gates).
+
+## First Steps for New Contributors
+
+1. **Run locally**
+   ```bash
+   npm i
+   npm run dev
+   ```
+
+2. **Add a metric**
+   - Drop a world time series into `/public/data/<metric>.json`.
+   - Register it in `lib/metrics.ts` (id, name, domain, unit, ↑/↓ better).
+   - Render it on the homepage or a domain section.
+
+3. **Document**
+   - Update `docs/METHODS.md` with the metric’s source + units.
+   - Add a line to `docs/CHANGELOG.md` (what changed, why).
+
+4. **Open a PR**
+   - Expect CI checks and a Vercel Preview link for review.
