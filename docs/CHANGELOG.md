@@ -1,5 +1,8 @@
 # Changelog
 
+## 2025-09-02
+- data(u5_mortality): add WDI pipeline; METHODS updated.
+
 ## 2025-08-30
 - build(alignment): add metrics registry, relative helper, dataset schema validation, and scheduler scaffold.
 
