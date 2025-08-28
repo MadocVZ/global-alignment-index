@@ -6,7 +6,7 @@ async function run() {
   const files = await readdir(dataDir)
   const datasetFiles = files
     .filter(f => extname(f) === '.json')
-    .filter(f => f !== 'sources.json')
+    .filter(f => !['sources.json', 'metrics_registry.json'].includes(f))
 
   // Read sources manifest
   let manifest = {}

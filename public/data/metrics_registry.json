@@ -1,0 +1,28 @@
+[
+  {
+    "id": "co2_ppm",
+    "domain": "Climate & Environment",
+    "unit": "ppm",
+    "alignment_or_capability": "alignment",
+    "direction": "down",
+    "reference_min": 370,
+    "reference_max": 425.2,
+    "target": null,
+    "cadence": "annual",
+    "source_url": "https://gml.noaa.gov/webdata/ccgg/trends/co2/co2_mm_gl.csv",
+    "notes": "Global atmospheric CO₂ concentration"
+  },
+  {
+    "id": "life_expectancy",
+    "domain": "Health & Wellbeing",
+    "unit": "years",
+    "alignment_or_capability": "alignment",
+    "direction": "up",
+    "reference_min": 52.6,
+    "reference_max": 72.9,
+    "target": null,
+    "cadence": "annual",
+    "source_url": "https://data.worldbank.org/indicator/SP.DYN.LE00.IN",
+    "notes": "World Bank life expectancy at birth"
+  }
+]
