@@ -2,6 +2,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts'
 import { METRICS } from '@/lib/metrics'
+import SourcesFooter from '@/components/SourcesFooter'
 
 type Pt = { year: number; value: number }
 function unitFor(id: string): string {
@@ -132,6 +133,7 @@ export default function Home() {
       <footer className="text-sm opacity-70 py-10">
         <p>Sources: NOAA, WHO, World Bank, ITU (real datasets to be wired). This is a v0.1 prototype.</p>
       </footer>
+      <SourcesFooter />
     </main>
   )
 }

@@ -1,0 +1,29 @@
+{
+  "life_expectancy": {
+    "name": "Life expectancy",
+    "domain": "Health & Wellbeing",
+    "unit": "years",
+    "source_org": "World Bank",
+    "source_url": "https://data.worldbank.org/indicator/SP.DYN.LE00.IN",
+    "license": "CC BY 4.0"
+  },
+  "internet_use": {
+    "name": "Individuals using the internet",
+    "domain": "Education & Digital",
+    "unit": "%",
+    "source_org": "International Telecommunication Union",
+    "source_url": "https://data.worldbank.org/indicator/IT.NET.USER.ZS",
+    "license": "CC BY 4.0"
+  },
+  "co2_ppm": {
+    "name": "CO₂ (Global)",
+    "domain": "Climate & Environment",
+    "unit": "ppm",
+    "source_org": "NOAA Global Monitoring Laboratory",
+    "source_url": "https://gml.noaa.gov/webdata/ccgg/trends/co2/co2_mm_gl.csv",
+    "license": "Public domain / no known restrictions",
+    "method": "Annual mean of monthly averages, exclude -99.99; round to 2 decimals.",
+    "updated_at": "2025-08-27",
+    "data_start_year": 2000
+  }
+}

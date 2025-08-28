@@ -9,7 +9,8 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "fetch:co2": "node --import=./scripts/register.mjs scripts/pipelines/co2.ts || node scripts/pipelines/co2.js",
-    "fetch:all": "node --import=./scripts/register.mjs scripts/fetch-all.ts || node scripts/fetch-all.js"
+    "fetch:all": "node --import=./scripts/register.mjs scripts/fetch-all.ts || node scripts/fetch-all.js",
+    "validate:sources": "node scripts/validate-sources.js"
   },
   "dependencies": {
     "next": "14.2.5",
