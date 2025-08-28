@@ -11,6 +11,9 @@ export async function runAll() {
   for (const p of pipelines) {
     console.log(`start ${p.name}`);
     const data = await p.run();
+    if (!Array.isArray(data) || data.length === 0) {
+      throw new Error(`pipeline ${p.name} returned empty data`);
+    }
     console.log(`done ${p.name} (${data.length})`);
   }
 }
