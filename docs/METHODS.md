@@ -9,3 +9,9 @@
 - scripts/pipelines/<metric>.ts → fetches raw data; writes /public/data/<metric>.json
 - Annualization: simple arithmetic mean of valid monthly values; excludes placeholders (e.g., -99.99)
 - CO₂ source: NOAA Global monthly mean CO₂ (ppm), see pipeline
+
+**Life expectancy (years) — World (World Bank)**
+- Source: World Bank API (SP.DYN.LE00.IN)
+- Unit: years
+- Cadence: annual
+- Method: use WB annual values; include only numeric values; round 2 decimals.

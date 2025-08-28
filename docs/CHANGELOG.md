@@ -1,5 +1,8 @@
 # Changelog
 
+## 2025-08-28
+- data(life_expectancy): add pipeline from World Bank API; METHODS updated.
+
 ## 2025-08-27
 - Use @/... alias for imports instead of relative paths.
 - build(data): generalize fetch scripts into scripts/lib + scripts/pipelines; add fetch:all
