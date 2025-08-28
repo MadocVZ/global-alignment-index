@@ -1,5 +1,8 @@
 # Changelog
 
+## 2025-08-30
+- build(alignment): add metrics registry, relative helper, dataset schema validation, and scheduler scaffold.
+
 ## 2025-08-28
 - data(life_expectancy): add pipeline from World Bank API; METHODS updated.
 

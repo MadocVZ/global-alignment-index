@@ -1,12 +1,12 @@
-name: CI
+name: Fetch Data
 
 on:
-  pull_request:
-  push:
-    branches: [ main ]
+  workflow_dispatch:
+  # schedule:
+  #   - cron: '0 0 * * 0'
 
 jobs:
-  build:
+  fetch:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -15,7 +15,4 @@ jobs:
           node-version: '20'
           cache: 'npm'
       - run: npm install
-      - run: npm run typecheck
-      - run: npm run build
-      - run: npm run validate:sources
-      - run: node scripts/validate-datasets.js
+      - run: npm run fetch:all

@@ -2,6 +2,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts'
 import { METRICS } from '@/lib/metrics'
+import { computeRelative } from '@/lib/relative'
 import SourcesFooter from '@/components/SourcesFooter'
 
 type Pt = { year: number; value: number }
@@ -32,11 +33,19 @@ async function load(id: string): Promise<Pt[]> {
 
 export default function Home() {
   const [data, setData] = useState<Record<string, Pt[]>>({})
+  const [registry, setRegistry] = useState<Record<string, any>>({})
   useEffect(() => {
     METRICS.forEach(async m => {
       const series = await load(m.id)
       setData(prev => ({ ...prev, [m.id]: series }))
     })
+    ;(async () => {
+      const res = await fetch('/data/metrics_registry.json', { cache: 'no-store' })
+      if (res.ok) {
+        const arr = await res.json()
+        setRegistry(Object.fromEntries(arr.map((r: any) => [r.id, r])))
+      }
+    })()
   }, [])
 
   const aggregate = useMemo(() => {
@@ -126,6 +135,23 @@ export default function Home() {
               </ResponsiveContainer>
             </div>
             <p className="text-sm opacity-70 mt-2">{METRICS.find(m=>m.id===k)?.domain}</p>
+            {(() => {
+              const reg = registry[k]
+              const series = data[k]
+              const latest = series && series[series.length - 1]
+              if (reg && latest) {
+                const rel = computeRelative(latest.value, {
+                  direction: reg.direction,
+                  reference_min: reg.reference_min,
+                  reference_max: reg.reference_max,
+                  target: reg.target,
+                })
+                return (
+                  <p className="text-sm mt-1">Latest: {formatValue(k, latest.value)} · Relative: {Math.round(rel)}%</p>
+                )
+              }
+              return null
+            })()}
           </div>
         ))}
       </section>

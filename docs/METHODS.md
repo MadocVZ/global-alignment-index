@@ -5,6 +5,13 @@
 - Capability Index: TBD (GDP pc, energy pc, R&D % GDP, diffusion).
 - Transparency: sources listed per metric; changes logged in CHANGELOG.
 
+## Relative alignment v0.1
+- Metrics metadata lives in `public/data/metrics_registry.json`.
+- Relative alignment normalizes each metric to 0–100%.
+- For direction `up`: `(value - min) / (max - min)`; for `down`: `(max - value) / (max - min)`.
+- Targets (if any) map 100% to the target in the alignment direction.
+- Used to render a simple relative percent alongside raw values.
+
 ## Pipelines (overview)
 - scripts/pipelines/<metric>.ts → fetches raw data; writes /public/data/<metric>.json
 - Annualization: simple arithmetic mean of valid monthly values; excludes placeholders (e.g., -99.99)
