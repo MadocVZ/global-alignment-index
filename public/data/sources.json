@@ -5,7 +5,11 @@
     "unit": "years",
     "source_org": "World Bank",
     "source_url": "https://data.worldbank.org/indicator/SP.DYN.LE00.IN",
-    "license": "CC BY 4.0"
+    "license": "CC BY 4.0",
+    "cadence": "annual",
+    "method": "Use World Bank annual series as provided; include only numeric values; round to 2 decimals.",
+    "updated_at": "2025-08-28",
+    "data_start_year": 1960
   },
   "internet_use": {
     "name": "Individuals using the internet",
