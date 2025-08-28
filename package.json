@@ -8,8 +8,10 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "fetch:co2": "node --import=./scripts/register.mjs scripts/pipelines/co2.ts || node scripts/pipelines/co2.js",
-    "fetch:all": "node --import=./scripts/register.mjs scripts/fetch-all.ts || node scripts/fetch-all.js",
+    "fetch:all": "tsx scripts/fetch-all.ts",
+    "fetch:co2": "tsx scripts/pipelines/co2.ts",
+    "fetch:life": "tsx scripts/pipelines/life_expectancy.ts",
+    "fetch:u5": "tsx scripts/pipelines/u5_mortality.ts",
     "validate:sources": "node scripts/validate-sources.js"
   },
   "dependencies": {
@@ -28,6 +30,7 @@
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",
     "eslint": "8.57.0",
-    "eslint-config-next": "14.2.5"
+    "eslint-config-next": "14.2.5",
+    "tsx": "^4.7.0"
   }
 }
