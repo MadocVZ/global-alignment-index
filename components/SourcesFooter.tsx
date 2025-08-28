@@ -19,8 +19,11 @@ export default function SourcesFooter() {
       try {
         const res = await fetch('/data/sources.json', { cache: 'no-store' })
         if (!res.ok) return
-        const json = await res.json()
-        setSources(json)
+        const json: Record<string, SourceMeta> = await res.json()
+        const filtered = Object.fromEntries(
+          Object.entries(json).filter(([, s]) => s.updated_at)
+        )
+        setSources(filtered)
       } catch (err) {
         console.error(err)
       }
