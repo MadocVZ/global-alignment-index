@@ -24,5 +24,18 @@
     "cadence": "annual",
     "source_url": "https://data.worldbank.org/indicator/SP.DYN.LE00.IN",
     "notes": "World Bank life expectancy at birth"
+  },
+  {
+    "id": "extreme_poverty",
+    "domain": "Economics & Poverty",
+    "unit": "%",
+    "alignment_or_capability": "alignment",
+    "direction": "down",
+    "reference_min": 0,
+    "reference_max": 80,
+    "target": 0,
+    "cadence": "annual",
+    "source_url": "https://data.worldbank.org/indicator/SI.POV.DDAY",
+    "notes": "Pop-weighted global mean from national SI.POV.DDAY; excludes aggregates; round to 2 decimals; WDI may include modeled/nowcasted values."
   }
 ]

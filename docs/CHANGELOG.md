@@ -1,5 +1,8 @@
 # Changelog
 
+## 2025-08-31
+- data(extreme_poverty): add WDI pipeline (SI.POV.DDAY); pop-weighted global; registry/docs updated.
+
 ## 2025-08-30
 - build(alignment): add metrics registry, relative helper, dataset schema validation, and scheduler scaffold.
 

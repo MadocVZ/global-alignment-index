@@ -22,3 +22,9 @@
 - Unit: years
 - Cadence: annual
 - Method: use WB annual values; include only numeric values; round 2 decimals.
+
+**Extreme poverty (% at $2.15) — Global (World Bank)**
+- Source: World Bank API (SI.POV.DDAY)
+- Unit: % of population
+- Cadence: annual
+- Method: Pop-weighted global mean from national SI.POV.DDAY using SP.POP.TOTL; exclude aggregates; round to 2 decimals; WDI may include modeled/nowcasted values.
