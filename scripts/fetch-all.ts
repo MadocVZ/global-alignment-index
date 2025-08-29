@@ -6,6 +6,7 @@ export async function runAll() {
   const pipelines = [
     { name: 'co2_ppm', run: co2 },
     { name: 'life_expectancy', run: life_expectancy },
+    // Under-5 mortality from WDI
     { name: 'u5_mortality', run: u5_mortality },
   ];
   for (const p of pipelines) {

@@ -1,6 +1,6 @@
 # Changelog
 
-## 2025-09-02
+## 2025-08-29
 - data(u5_mortality): add WDI pipeline; METHODS updated.
 
 ## 2025-08-30
