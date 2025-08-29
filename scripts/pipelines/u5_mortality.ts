@@ -1,3 +1,4 @@
+// Pipeline for Under-5 mortality (U5MR) from WDI
 import { writeJson } from "../lib/io.ts";
 import { upsertSource } from "../lib/manifest.ts";
 
@@ -80,8 +81,8 @@ export async function run() {
     fetchWdiAll(INDICATOR),
     fetchWdiAll(POP),
   ]);
-  console.log("[u5] raw U5MR rows:", mortRows.length);
-  console.log("[u5] raw POP rows:", popRows.length);
+  console.log('[u5] raw U5MR rows:', Array.isArray(mortRows) ? mortRows.length : 0);
+  console.log('[u5] raw POP rows:',  Array.isArray(popRows)  ? popRows.length  : 0);
 
   const mort: Record<string, Record<number, number>> = {};
   for (const d of mortRows) {
@@ -113,7 +114,8 @@ export async function run() {
       if (pop[iso]?.[yy] != null) years.add(yy);
     }
   }
-  console.log("[u5] years count:", years.size);
+  const ys = Array.from(years).sort((a, b) => a - b);
+  console.log("[u5] years count:", years.size, ys.length ? `range ${ys[0]}–${ys[ys.length-1]}` : '');
 
   const data = Array.from(years)
     .map((year) => {
@@ -137,7 +139,7 @@ export async function run() {
     year: number;
     value: number;
   }[];
-  console.log("[u5] computed points:", data.length);
+  console.log('[u5] computed points:', data.length);
   if (!Array.isArray(data) || data.length === 0) {
     throw new Error("u5_mortality: no data fetched — skipping write");
   }
@@ -160,9 +162,11 @@ export async function run() {
   return data;
 }
 
-if ((import.meta as any).main) {
+// Node ESM-safe entrypoint check so smoke-run works
+const isEntry = import.meta.url === new URL(process.argv[1], 'file://').href;
+if (isEntry) {
   run().catch((err) => {
-    console.error(err);
+    console.error('[u5] fatal:', err?.message || err);
     process.exit(1);
   });
 }

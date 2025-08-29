@@ -32,19 +32,42 @@ jobs:
           npm -v
           npm config get registry
 
-      - name: Install deps (retry with fallback)
+      - name: Install deps
         run: |
-          set -e
-          npm config set fetch-retry-maxtimeout 60000
-          npm config set fetch-retries 5
-          for i in 1 2 3; do
-            echo "[ci] npm ci attempt $i"
-            if npm ci --no-audit --no-fund; then break; fi
-            sleep 5
-          done || (echo "[ci] npm ci failed; trying npm install" && npm install --no-audit --no-fund)
+          npm install --no-audit --no-fund
+
+      - name: Verify tsx
+        run: npx tsx --version
+
+      - name: Preflight WDI probe
+        run: |
+          node -e "
+          const probe = async (ind) => {
+            const url = 'https://api.worldbank.org/v2/country/all/indicator/'+ind+'?format=json&per_page=20000&page=1';
+            const res = await fetch(url, { headers: { 'User-Agent': 'GAI-probe', 'Accept': 'application/json' }});
+            const txt = await res.text().catch(()=> '');
+            console.log('[probe]', ind, 'status', res.status, res.statusText);
+            try {
+              const j = JSON.parse(txt);
+              const pages = Array.isArray(j) && j[0]?.pages;
+              const rows = Array.isArray(j) && Array.isArray(j[1]) ? j[1].length : 0;
+              console.log('[probe]', ind, 'pages', pages, 'rows_page1', rows);
+            } catch(e) {
+              console.log('[probe]', ind, 'non-JSON body:', txt.slice(0,200));
+            }
+          };
+          (async ()=>{ await probe('SH.DYN.MORT'); await probe('SP.POP.TOTL'); })()
+          "
 
       - name: Run all pipelines
-        run: npm run fetch:all
+        run: npm run fetch:all | tee fetch.log
+
+      - name: Upload fetch log
+        uses: actions/upload-artifact@v4
+        with:
+          name: fetch-log
+          path: fetch.log
+          if-no-files-found: ignore
 
       - name: U5 smoke-run (always attempt for logs)
         if: always()
@@ -69,15 +92,7 @@ jobs:
 
       - name: Collect U5 debug
         if: always()
-        run: |
-          node -e "
-            const fs=require('fs');
-            const out={};
-            try{ out.u5Exists=fs.existsSync('public/data/u5_mortality.json'); }catch(e){}
-            try{ if(out.u5Exists){ out.u5Bytes=fs.statSync('public/data/u5_mortality.json').size; } }catch(e){}
-            console.log(JSON.stringify(out,null,2));
-            fs.writeFileSync('u5-debug.json', JSON.stringify(out));
-          "
+        run: echo "[ci] debug end"
 
       - name: Upload debug artifacts
         if: always()

@@ -27,4 +27,4 @@
 - Source: UN IGME via World Bank WDI (SH.DYN.MORT)
 - Unit: per 1,000 live births
 - Cadence: annual
-- Method: Population-weighted global mean of national SH.DYN.MORT using SP.POP.TOTL; exclude aggregates; round 2 decimals.
+- Method: Population-weighted global mean of national SH.DYN.MORT using SP.POP.TOTL; exclude aggregates; round to 2 decimals.
