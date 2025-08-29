@@ -8,7 +8,7 @@
     "license": "CC BY 4.0",
     "cadence": "annual",
     "method": "Use World Bank annual series as provided; include only numeric values; round to 2 decimals.",
-    "updated_at": "2025-08-28",
+    "updated_at": "2025-08-29",
     "data_start_year": 1960
   },
   "internet_use": {
@@ -27,8 +27,8 @@
     "source_url": "https://gml.noaa.gov/webdata/ccgg/trends/co2/co2_mm_gl.csv",
     "license": "Public domain / no known restrictions",
     "method": "Annual mean of monthly averages, exclude -99.99; round to 2 decimals.",
-    "updated_at": "2025-08-27",
-    "data_start_year": 2000
+    "updated_at": "2025-08-29",
+    "data_start_year": 1979
   },
   "u5_mortality": {
     "name": "Under-5 mortality",
