@@ -26,6 +26,19 @@
     "notes": "World Bank life expectancy at birth"
   },
   {
+    "id": "internet_use",
+    "domain": "Education & Digital",
+    "unit": "%",
+    "alignment_or_capability": "alignment",
+    "direction": "up",
+    "reference_min": 0,
+    "reference_max": 100,
+    "target": null,
+    "cadence": "annual",
+    "source_url": "https://data.worldbank.org/indicator/IT.NET.USER.ZS",
+    "notes": "Individuals using the Internet (% of population); round to 2 decimals."
+  },
+  {
     "id": "u5_mortality",
     "domain": "Health & Wellbeing",
     "unit": "per 1,000",
