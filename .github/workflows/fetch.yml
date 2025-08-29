@@ -13,6 +13,10 @@ jobs:
   fetch:
     runs-on: ubuntu-latest
     steps:
+      - name: Start marker
+        run: |
+          echo "[ci] Fetch Data workflow starting at $(date -Is)"
+
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -22,8 +26,31 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
-      - run: npm install
-      - run: npm run fetch:all
+      - name: Print tool versions
+        run: |
+          node -v
+          npm -v
+          npm config get registry
+
+      - name: Install deps (retry with fallback)
+        run: |
+          set -e
+          npm config set fetch-retry-maxtimeout 60000
+          npm config set fetch-retries 5
+          for i in 1 2 3; do
+            echo "[ci] npm ci attempt $i"
+            if npm ci --no-audit --no-fund; then break; fi
+            sleep 5
+          done || (echo "[ci] npm ci failed; trying npm install" && npm install --no-audit --no-fund)
+
+      - name: Run all pipelines
+        run: npm run fetch:all
+
+      - name: U5 smoke-run (always attempt for logs)
+        if: always()
+        run: |
+          echo "[ci] Running U5 smoke..."
+          npm run fetch:u5 || true
 
       - name: Show dataset sizes
         run: |
@@ -40,6 +67,28 @@ jobs:
             if (bad.length){console.error('Empty datasets:', bad.join(', ')); process.exit(1)}
             "
 
+      - name: Collect U5 debug
+        if: always()
+        run: |
+          node -e "
+            const fs=require('fs');
+            const out={};
+            try{ out.u5Exists=fs.existsSync('public/data/u5_mortality.json'); }catch(e){}
+            try{ if(out.u5Exists){ out.u5Bytes=fs.statSync('public/data/u5_mortality.json').size; } }catch(e){}
+            console.log(JSON.stringify(out,null,2));
+            fs.writeFileSync('u5-debug.json', JSON.stringify(out));
+          "
+
+      - name: Upload debug artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fetch-debug
+          path: |
+            u5-debug.json
+            public/data/**
+          if-no-files-found: ignore
+
       - name: Create PR with changes
         uses: peter-evans/create-pull-request@v6
         with:
@@ -54,4 +103,3 @@ jobs:
             docs/METHODS.md
             docs/CHANGELOG.md
           author: "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
-

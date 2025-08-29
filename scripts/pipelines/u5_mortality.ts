@@ -152,7 +152,7 @@ export async function run() {
     license: "CC BY 4.0",
     cadence: "annual",
     method:
-      "Population-weighted global mean of national SH.DYN.MORT using SP.POP.TOTL; exclude aggregates; round 2 decimals.",
+      "Population-weighted global mean of national SH.DYN.MORT using SP.POP.TOTL; exclude aggregates; round to 2 decimals.",
     updated_at: new Date().toISOString().slice(0, 10),
     data_start_year:
       Array.isArray(data) && data.length ? data[0].year : undefined,
