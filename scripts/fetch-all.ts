@@ -10,18 +10,20 @@ export async function runAll() {
     { name: 'u5_mortality', run: u5_mortality },
   ];
   for (const p of pipelines) {
-    console.log(`start ${p.name}`);
+    console.log(`[fetch-all] start ${p.name}`);
     const data = await p.run();
-    if (!Array.isArray(data) || data.length === 0) {
-      throw new Error(`pipeline ${p.name} returned empty data`);
+    const n = Array.isArray(data) ? data.length : 0;
+    console.log(`[fetch-all] done ${p.name} (${n})`);
+    if (!Array.isArray(data) || n === 0) {
+      console.error(`[fetch-all] ${p.name} returned empty data — failing run`);
+      throw new Error(`empty dataset: ${p.name}`);
     }
-    console.log(`done ${p.name} (${data.length})`);
   }
 }
 
 if ((import.meta as any).main) {
   runAll().catch((err) => {
-    console.error(err);
+    console.error('[fetch-all] fatal:', err?.message || err);
     process.exit(1);
   });
 }

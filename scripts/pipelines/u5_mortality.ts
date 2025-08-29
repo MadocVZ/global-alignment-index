@@ -81,8 +81,8 @@ export async function run() {
     fetchWdiAll(INDICATOR),
     fetchWdiAll(POP),
   ]);
-  console.log("[u5] raw U5MR rows:", mortRows.length);
-  console.log("[u5] raw POP rows:", popRows.length);
+  console.log('[u5] raw U5MR rows:', Array.isArray(mortRows) ? mortRows.length : 0);
+  console.log('[u5] raw POP rows:',  Array.isArray(popRows)  ? popRows.length  : 0);
 
   const mort: Record<string, Record<number, number>> = {};
   for (const d of mortRows) {
@@ -114,7 +114,8 @@ export async function run() {
       if (pop[iso]?.[yy] != null) years.add(yy);
     }
   }
-  console.log("[u5] years count:", years.size);
+  const ys = Array.from(years).sort((a, b) => a - b);
+  console.log("[u5] years count:", years.size, ys.length ? `range ${ys[0]}–${ys[ys.length-1]}` : '');
 
   const data = Array.from(years)
     .map((year) => {
@@ -138,7 +139,7 @@ export async function run() {
     year: number;
     value: number;
   }[];
-  console.log("[u5] computed points:", data.length);
+  console.log('[u5] computed points:', data.length);
   if (!Array.isArray(data) || data.length === 0) {
     throw new Error("u5_mortality: no data fetched — skipping write");
   }
