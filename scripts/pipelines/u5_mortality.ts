@@ -162,9 +162,11 @@ export async function run() {
   return data;
 }
 
-if ((import.meta as any).main) {
+// Node ESM-safe entrypoint check so smoke-run works
+const isEntry = import.meta.url === new URL(process.argv[1], 'file://').href;
+if (isEntry) {
   run().catch((err) => {
-    console.error(err);
+    console.error('[u5] fatal:', err?.message || err);
     process.exit(1);
   });
 }

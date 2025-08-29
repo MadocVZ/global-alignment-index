@@ -21,7 +21,9 @@ export async function runAll() {
   }
 }
 
-if ((import.meta as any).main) {
+// Node ESM-safe entrypoint check
+const isEntry = import.meta.url === new URL(process.argv[1], 'file://').href;
+if (isEntry) {
   runAll().catch((err) => {
     console.error('[fetch-all] fatal:', err?.message || err);
     process.exit(1);
