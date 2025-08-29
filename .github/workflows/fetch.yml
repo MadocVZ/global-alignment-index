@@ -96,15 +96,7 @@ jobs:
 
       - name: Collect U5 debug
         if: always()
-        run: |
-          node -e "
-            const fs=require('fs');
-            const out={};
-            try{ out.u5Exists=fs.existsSync('public/data/u5_mortality.json'); }catch(e){}
-            try{ if(out.u5Exists){ out.u5Bytes=fs.statSync('public/data/u5_mortality.json').size; } }catch(e){}
-            console.log(JSON.stringify(out,null,2));
-            fs.writeFileSync('u5-debug.json', JSON.stringify(out));
-          "
+        run: echo "[ci] debug end"
 
       - name: Upload debug artifacts
         if: always()

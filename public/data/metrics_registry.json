@@ -29,14 +29,14 @@
     "id": "internet_use",
     "domain": "Education & Digital",
     "unit": "%",
-    "alignment_or_capability": "capability",
+    "alignment_or_capability": "alignment",
     "direction": "up",
     "reference_min": 0,
     "reference_max": 100,
-    "target": 100,
+    "target": null,
     "cadence": "annual",
     "source_url": "https://data.worldbank.org/indicator/IT.NET.USER.ZS",
-    "notes": "Individuals using the internet (% of population)"
+    "notes": "Individuals using the Internet (% of population); round to 2 decimals."
   },
   {
     "id": "u5_mortality",
