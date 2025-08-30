@@ -1,6 +1,8 @@
 import { writeJson } from '../lib/io.ts';
 import { upsertSource } from '../lib/manifest.ts';
 
+// Pipeline to compute population-weighted global extreme poverty (% at $2.15, 2017 PPP)
+
 const EXCLUDE = new Set([
   'WLD','HIC','INX','LIC','LMC','MIC','UMC','OED','ARB','EAP','ECA','ECS','EUU','LCN','LAC','MEA','NAC','SAS','SSA','FCS'
 ]);
