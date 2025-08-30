@@ -1,5 +1,14 @@
 # Changelog
 
+## 2025-09-03
+- data(extreme_poverty): activate pipeline; add UA header.
+
+## 2025-09-02
+- data(u5_mortality): add WDI pipeline; METHODS updated.
+
+## 2025-08-31
+- data(extreme_poverty): add WDI pipeline (SI.POV.DDAY); pop-weighted global; registry/docs updated.
+
 ## 2025-08-30
 - build(alignment): add metrics registry, relative helper, dataset schema validation, and scheduler scaffold.
 

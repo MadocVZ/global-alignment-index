@@ -3,16 +3,55 @@ name: Fetch Data
 on:
   workflow_dispatch:
   # schedule:
-  #   - cron: '0 0 * * 0'
+  #   - cron: '0 0 * * 0'   # weekly (disabled for now)
+
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
   fetch:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
+
       - run: npm install
       - run: npm run fetch:all
+
+      - name: Show dataset sizes
+        run: |
+          ls -lh public/data | sed -n '1,200p'
+          node -e "const fs=require('fs');const f='public/data/u5_mortality.json'; console.log('u5 file size:', fs.existsSync(f)?fs.statSync(f).size:'missing')"
+
+      # Fail if any dataset is empty []
+      - name: Validate datasets not empty
+        run: |
+          node -e "
+            const fs=require('fs'),p='./public/data';
+            const files=fs.readdirSync(p).filter(f=>f.endsWith('.json')&&!['sources.json','metrics_registry.json'].includes(f));
+            let bad=[]; for (const f of files){const a=JSON.parse(fs.readFileSync(p+'/'+f,'utf8')||'[]'); if(Array.isArray(a)&&a.length===0) bad.push(f)}
+            if (bad.length){console.error('Empty datasets:', bad.join(', ')); process.exit(1)}
+            "
+
+      - name: Create PR with changes
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: data/update-${{ github.run_id }}
+          title: "data: refresh datasets (${{ github.run_id }})"
+          commit-message: "data: refresh datasets via fetch-all"
+          body: |
+            Automated data refresh. Please review changes in /public/data and docs.
+          labels: data-refresh
+          add-paths: |
+            public/data/**
+            docs/METHODS.md
+            docs/CHANGELOG.md
+          author: "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
+

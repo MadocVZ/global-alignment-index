@@ -22,3 +22,15 @@
 - Unit: years
 - Cadence: annual
 - Method: use WB annual values; include only numeric values; round 2 decimals.
+
+**Under-5 mortality (per 1,000 live births) — Global (UN IGME / World Bank)**
+- Source: UN IGME via World Bank WDI (SH.DYN.MORT)
+- Unit: per 1,000 live births
+- Cadence: annual
+- Method: Population-weighted global mean of national SH.DYN.MORT using SP.POP.TOTL; exclude aggregates; round 2 decimals; WDI may include modeled/nowcasted values.
+
+**Extreme poverty (% at $2.15) — Global (World Bank)**
+- Source: World Bank API (SI.POV.DDAY)
+- Unit: % of population
+- Cadence: annual
+- Method: Pop-weighted global mean from national SI.POV.DDAY using SP.POP.TOTL; exclude aggregates; round 2 decimals; WDI may include modeled/nowcasted values.
