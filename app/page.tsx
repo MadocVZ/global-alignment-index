@@ -31,6 +31,27 @@ async function load(id: string): Promise<Pt[]> {
   return res.json()
 }
 
+type PtMaybe = { year: number; value: number | null | undefined }
+
+function prepSeriesForPlot(series: PtMaybe[]): PtMaybe[] {
+  return [...series]
+    .sort((a, b) => a.year - b.year)
+    .map(p => {
+      const v = p?.value as number | null | undefined
+      return Number.isFinite(v) && (v as number) > 0
+        ? { year: p.year, value: v as number }
+        : { year: p.year, value: null }
+    })
+}
+
+function getLatestNonMissingPoint(series: PtMaybe[]): PtMaybe | null {
+  for (let i = series.length - 1; i >= 0; i--) {
+    const v = series[i]?.value
+    if (Number.isFinite(v) && (v as number) > 0) return series[i]
+  }
+  return null
+}
+
 export default function Home() {
   const [data, setData] = useState<Record<string, Pt[]>>({})
   const [registry, setRegistry] = useState<Record<string, any>>({})
@@ -103,7 +124,8 @@ export default function Home() {
             <div className="w-full h-56 mt-2">
               <ResponsiveContainer width="100%" height="100%">
                 {(() => {
-                  const series = data[k].map(p => ({ year: p.year, [k]: p.value }))
+                  const raw = data[k] || []
+                  const series = prepSeriesForPlot(raw).map(p => ({ year: p.year, [k]: p.value }))
                   const metricIds = Object.keys(series[0] ?? {}).filter(id => id !== 'year')
                   const mid = metricIds.length === 1 ? metricIds[0] : undefined
                   return (
@@ -137,18 +159,26 @@ export default function Home() {
             <p className="text-sm opacity-70 mt-2">{METRICS.find(m=>m.id===k)?.domain}</p>
             {(() => {
               const reg = registry[k]
-              const series = data[k]
-              const latest = series && series[series.length - 1]
-              if (reg && latest) {
-                const rel = computeRelative(latest.value, {
+              const raw = data[k] || []
+              const latest = getLatestNonMissingPoint(raw)
+              const latestValue = latest?.value
+              const latestYear = latest?.year
+              const canShowLatest = Number.isFinite(latestValue)
+              if (reg && canShowLatest && latestYear !== undefined) {
+                const rel = computeRelative(latestValue as number, {
                   direction: reg.direction,
                   reference_min: reg.reference_min,
                   reference_max: reg.reference_max,
                   target: reg.target,
                 })
                 return (
-                  <p className="text-sm mt-1">Latest: {formatValue(k, latest.value)} · Relative: {Math.round(rel)}%</p>
+                  <p className="text-sm mt-1">
+                    Latest ({latestYear}): {formatValue(k, latestValue as number)} · Relative: {Math.round(rel)}%
+                  </p>
                 )
+              }
+              if (reg && !canShowLatest) {
+                return <p className="text-sm mt-1">Latest: No recent data</p>
               }
               return null
             })()}
