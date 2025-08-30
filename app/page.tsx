@@ -33,6 +33,17 @@ async function load(id: string): Promise<Pt[]> {
 
 type PtMaybe = { year: number; value: number | null | undefined }
 
+function prepSeriesForPlot(series: PtMaybe[]): PtMaybe[] {
+  return [...series]
+    .sort((a, b) => a.year - b.year)
+    .map(p => {
+      const v = p?.value as number | null | undefined
+      return Number.isFinite(v) && (v as number) > 0
+        ? { year: p.year, value: v as number }
+        : { year: p.year, value: null }
+    })
+}
+
 function getLatestNonMissingPoint(series: PtMaybe[]): PtMaybe | null {
   for (let i = series.length - 1; i >= 0; i--) {
     const v = series[i]?.value
@@ -113,7 +124,8 @@ export default function Home() {
             <div className="w-full h-56 mt-2">
               <ResponsiveContainer width="100%" height="100%">
                 {(() => {
-                  const series = data[k].map(p => ({ year: p.year, [k]: p.value }))
+                  const raw = data[k] || []
+                  const series = prepSeriesForPlot(raw).map(p => ({ year: p.year, [k]: p.value }))
                   const metricIds = Object.keys(series[0] ?? {}).filter(id => id !== 'year')
                   const mid = metricIds.length === 1 ? metricIds[0] : undefined
                   return (
@@ -147,8 +159,8 @@ export default function Home() {
             <p className="text-sm opacity-70 mt-2">{METRICS.find(m=>m.id===k)?.domain}</p>
             {(() => {
               const reg = registry[k]
-              const series = data[k]
-              const latest = getLatestNonMissingPoint(series)
+              const raw = data[k] || []
+              const latest = getLatestNonMissingPoint(raw)
               const latestValue = latest?.value
               const latestYear = latest?.year
               const canShowLatest = Number.isFinite(latestValue)
