@@ -83,7 +83,7 @@ export async function run() {
     source_url: 'https://data.worldbank.org/indicator/SI.POV.DDAY',
     license: 'CC BY 4.0',
     cadence: 'annual',
-    method: 'Pop-weighted global mean from SI.POV.DDAY using SP.POP.TOTL; exclude aggregates; round to 2 decimals; WDI may include modeled/nowcasted values.',
+    method: 'Pop-weighted global mean from national SI.POV.DDAY using SP.POP.TOTL; exclude aggregates; round 2 decimals; WDI may include modeled/nowcasted values.',
     updated_at: new Date().toISOString(),
     data_start_year: data.length ? data[0].year : undefined,
   });
