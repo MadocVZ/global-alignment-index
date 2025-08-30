@@ -31,6 +31,16 @@ async function load(id: string): Promise<Pt[]> {
   return res.json()
 }
 
+type PtMaybe = { year: number; value: number | null | undefined }
+
+function getLatestNonMissingPoint(series: PtMaybe[]): PtMaybe | null {
+  for (let i = series.length - 1; i >= 0; i--) {
+    const v = series[i]?.value
+    if (Number.isFinite(v) && (v as number) > 0) return series[i]
+  }
+  return null
+}
+
 export default function Home() {
   const [data, setData] = useState<Record<string, Pt[]>>({})
   const [registry, setRegistry] = useState<Record<string, any>>({})
@@ -138,17 +148,25 @@ export default function Home() {
             {(() => {
               const reg = registry[k]
               const series = data[k]
-              const latest = series && series[series.length - 1]
-              if (reg && latest) {
-                const rel = computeRelative(latest.value, {
+              const latest = getLatestNonMissingPoint(series)
+              const latestValue = latest?.value
+              const latestYear = latest?.year
+              const canShowLatest = Number.isFinite(latestValue)
+              if (reg && canShowLatest && latestYear !== undefined) {
+                const rel = computeRelative(latestValue as number, {
                   direction: reg.direction,
                   reference_min: reg.reference_min,
                   reference_max: reg.reference_max,
                   target: reg.target,
                 })
                 return (
-                  <p className="text-sm mt-1">Latest: {formatValue(k, latest.value)} · Relative: {Math.round(rel)}%</p>
+                  <p className="text-sm mt-1">
+                    Latest ({latestYear}): {formatValue(k, latestValue as number)} · Relative: {Math.round(rel)}%
+                  </p>
                 )
+              }
+              if (reg && !canShowLatest) {
+                return <p className="text-sm mt-1">Latest: No recent data</p>
               }
               return null
             })()}
