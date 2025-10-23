@@ -9,7 +9,11 @@ import SourcesFooter from '@/components/SourcesFooter'
 // Temporarily hide metrics that are not part of the MVP dashboard view.
 const HIDDEN_METRIC_IDS = new Set(['internet_use'])
 const DISPLAY_METRICS = METRICS.filter(m => !HIDDEN_METRIC_IDS.has(m.id))
-const TRUTH_AND_CLARITY_METRIC_IDS = new Set(['internet_shutdown_days', 'scientific_coauthorship_share'])
+const TRUTH_AND_CLARITY_METRIC_IDS = new Set([
+  'internet_shutdown_days',
+  'scientific_coauthorship_share',
+  'press_freedom_suppression_index',
+])
 const TRUTH_AND_CLARITY_METRICS = DISPLAY_METRICS.filter(m => TRUTH_AND_CLARITY_METRIC_IDS.has(m.id))
 const OTHER_METRICS = DISPLAY_METRICS.filter(m => !TRUTH_AND_CLARITY_METRIC_IDS.has(m.id))
 
@@ -33,6 +37,7 @@ function formatValue(id: string, v: number): string {
     military_expenditure_per_capita: 1,
     internet_shutdown_days: 1,
     scientific_coauthorship_share: 1,
+    press_freedom_suppression_index: 1,
   }
   if (id === 'internet_use') return `${Math.round(v)}%`
   const decimals = precisionOverrides[id] ?? precisionForUnit(u)

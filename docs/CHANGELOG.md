@@ -1,5 +1,8 @@
 # Changelog
 
+## 2025-10-23
+- data(press_freedom_suppression_index): add RSF-based suppression pipeline with GAISUM logging, registry/source wiring, and dashboard exposure under Truth & Clarity capability.
+
 ## 2025-10-17
 - ui(internet_shutdown_days): add Truth & Clarity dashboard card, metric detail route, and direction badge copy.
 - ops(internet_shutdown_days): add manual STOP bake workflow to commit baked JSON + GAISUM outputs.

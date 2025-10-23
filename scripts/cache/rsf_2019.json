@@ -1,0 +1,902 @@
+[
+  {
+    "iso": "NOR",
+    "name": "Norvège",
+    "score": 92.18
+  },
+  {
+    "iso": "FIN",
+    "name": "Finlande",
+    "score": 92.1
+  },
+  {
+    "iso": "SWE",
+    "name": "Suède",
+    "score": 91.69
+  },
+  {
+    "iso": "NLD",
+    "name": "Pays-Bas",
+    "score": 91.37
+  },
+  {
+    "iso": "DNK",
+    "name": "Danemark",
+    "score": 90.13
+  },
+  {
+    "iso": "CHE",
+    "name": "Suisse",
+    "score": 89.48
+  },
+  {
+    "iso": "NZL",
+    "name": "Nouvelle-Zélande",
+    "score": 89.25
+  },
+  {
+    "iso": "JAM",
+    "name": "Jamaïque",
+    "score": 88.87
+  },
+  {
+    "iso": "BEL",
+    "name": "Belgique",
+    "score": 87.93
+  },
+  {
+    "iso": "CRI",
+    "name": "Costa Rica",
+    "score": 87.76
+  },
+  {
+    "iso": "EST",
+    "name": "Estonie",
+    "score": 87.73
+  },
+  {
+    "iso": "PRT",
+    "name": "Portugal",
+    "score": 87.37
+  },
+  {
+    "iso": "DEU",
+    "name": "Allemagne",
+    "score": 85.4
+  },
+  {
+    "iso": "ISL",
+    "name": "Islande",
+    "score": 85.29
+  },
+  {
+    "iso": "IRL",
+    "name": "Irlande",
+    "score": 85
+  },
+  {
+    "iso": "AUT",
+    "name": "Autriche",
+    "score": 84.67
+  },
+  {
+    "iso": "LUX",
+    "name": "Luxembourg",
+    "score": 84.34
+  },
+  {
+    "iso": "CAN",
+    "name": "Canada",
+    "score": 84.31
+  },
+  {
+    "iso": "URY",
+    "name": "Uruguay",
+    "score": 83.94
+  },
+  {
+    "iso": "SUR",
+    "name": "Suriname",
+    "score": 83.62
+  },
+  {
+    "iso": "AUS",
+    "name": "Australie",
+    "score": 83.45
+  },
+  {
+    "iso": "WSM",
+    "name": "Samoa",
+    "score": 81.75
+  },
+  {
+    "iso": "NAM",
+    "name": "Namibie",
+    "score": 81.05
+  },
+  {
+    "iso": "LVA",
+    "name": "Lettonie",
+    "score": 80.47
+  },
+  {
+    "iso": "CPV",
+    "name": "Cap-Vert",
+    "score": 80.19
+  },
+  {
+    "iso": "LIE",
+    "name": "Liechtenstein",
+    "score": 79.51
+  },
+  {
+    "iso": "GHA",
+    "name": "Ghana",
+    "score": 79.19
+  },
+  {
+    "iso": "CYP",
+    "name": "Chypre",
+    "score": 78.26
+  },
+  {
+    "iso": "ESP",
+    "name": "Espagne",
+    "score": 78.01
+  },
+  {
+    "iso": "LTU",
+    "name": "Lituanie",
+    "score": 77.94
+  },
+  {
+    "iso": "ZAF",
+    "name": "Afrique du Sud",
+    "score": 77.81
+  },
+  {
+    "iso": "FRA",
+    "name": "France",
+    "score": 77.79
+  },
+  {
+    "iso": "GBR",
+    "name": "Royaume-Uni",
+    "score": 77.77
+  },
+  {
+    "iso": "SVN",
+    "name": "Slovénie",
+    "score": 77.69
+  },
+  {
+    "iso": "SVK",
+    "name": "Slovaquie",
+    "score": 76.42
+  },
+  {
+    "iso": "BFA",
+    "name": "Burkina Faso",
+    "score": 75.47
+  },
+  {
+    "iso": "AND",
+    "name": "Andorre",
+    "score": 75.37
+  },
+  {
+    "iso": "PNG",
+    "name": "Papouasie-Nouvelle-Guinée",
+    "score": 75.3
+  },
+  {
+    "iso": "TTO",
+    "name": "Trinité-et-Tobago",
+    "score": 75.26
+  },
+  {
+    "iso": "CZE",
+    "name": "République tchèque",
+    "score": 75.11
+  },
+  {
+    "iso": "KOR",
+    "name": "Corée du Sud",
+    "score": 75.06
+  },
+  {
+    "iso": "TWN",
+    "name": "Taïwan",
+    "score": 75.02
+  },
+  {
+    "iso": "ITA",
+    "name": "Italie",
+    "score": 75.02
+  },
+  {
+    "iso": "BWA",
+    "name": "Botswana",
+    "score": 74.91
+  },
+  {
+    "iso": "TON",
+    "name": "Tonga",
+    "score": 74.59
+  },
+  {
+    "iso": "CHL",
+    "name": "Chili",
+    "score": 74.35
+  },
+  {
+    "iso": "ROU",
+    "name": "Roumanie",
+    "score": 74.33
+  },
+  {
+    "iso": "USA",
+    "name": "États-Unis",
+    "score": 74.31
+  },
+  {
+    "iso": "SEN",
+    "name": "Sénégal",
+    "score": 74.19
+  },
+  {
+    "iso": "XCD",
+    "name": "OECS",
+    "score": 73.96
+  },
+  {
+    "iso": "GUY",
+    "name": "Guyana",
+    "score": 73.37
+  },
+  {
+    "iso": "FJI",
+    "name": "Fidji",
+    "score": 72.82
+  },
+  {
+    "iso": "BLZ",
+    "name": "Bélize",
+    "score": 72.5
+  },
+  {
+    "iso": "MDG",
+    "name": "Madagascar",
+    "score": 72.24
+  },
+  {
+    "iso": "DOM",
+    "name": "République dominicaine",
+    "score": 72.1
+  },
+  {
+    "iso": "COM",
+    "name": "Comores",
+    "score": 72.09
+  },
+  {
+    "iso": "ARG",
+    "name": "Argentine",
+    "score": 71.7
+  },
+  {
+    "iso": "MUS",
+    "name": "Maurice",
+    "score": 71.54
+  },
+  {
+    "iso": "POL",
+    "name": "Pologne",
+    "score": 71.11
+  },
+  {
+    "iso": "GEO",
+    "name": "Géorgie",
+    "score": 71.02
+  },
+  {
+    "iso": "ARM",
+    "name": "Arménie",
+    "score": 71.02
+  },
+  {
+    "iso": "HTI",
+    "name": "Haïti",
+    "score": 71
+  },
+  {
+    "iso": "BIH",
+    "name": "Bosnie-Herzégovine",
+    "score": 70.98
+  },
+  {
+    "iso": "HRV",
+    "name": "Croatie",
+    "score": 70.97
+  },
+  {
+    "iso": "GRC",
+    "name": "Grèce",
+    "score": 70.92
+  },
+  {
+    "iso": "NER",
+    "name": "Niger",
+    "score": 70.74
+  },
+  {
+    "iso": "JPN",
+    "name": "Japon",
+    "score": 70.64
+  },
+  {
+    "iso": "MWI",
+    "name": "Malawi",
+    "score": 70.64
+  },
+  {
+    "iso": "SYC",
+    "name": "Seychelles",
+    "score": 70.59
+  },
+  {
+    "iso": "MNG",
+    "name": "Mongolie",
+    "score": 70.49
+  },
+  {
+    "iso": "CIV",
+    "name": "Côte d'Ivoire",
+    "score": 70.48
+  },
+  {
+    "iso": "TUN",
+    "name": "Tunisie",
+    "score": 70.39
+  },
+  {
+    "iso": "HKG",
+    "name": "Hong-Kong",
+    "score": 70.35
+  },
+  {
+    "iso": "CTU",
+    "name": "Chypre (partie Nord)",
+    "score": 70.33
+  },
+  {
+    "iso": "XKO",
+    "name": "Kosovo",
+    "score": 70.32
+  },
+  {
+    "iso": "TGO",
+    "name": "Togo",
+    "score": 70.31
+  },
+  {
+    "iso": "MLT",
+    "name": "Malte",
+    "score": 70.26
+  },
+  {
+    "iso": "LSO",
+    "name": "Lesotho",
+    "score": 70.26
+  },
+  {
+    "iso": "PAN",
+    "name": "Panama",
+    "score": 70.22
+  },
+  {
+    "iso": "BTN",
+    "name": "Bhoutan",
+    "score": 70.19
+  },
+  {
+    "iso": "SLV",
+    "name": "El Salvador",
+    "score": 70.19
+  },
+  {
+    "iso": "ALB",
+    "name": "Albanie",
+    "score": 70.16
+  },
+  {
+    "iso": "KGZ",
+    "name": "Kirghizstan",
+    "score": 70.08
+  },
+  {
+    "iso": "TLS",
+    "name": "Timor oriental",
+    "score": 70.07
+  },
+  {
+    "iso": "PER",
+    "name": "Pérou",
+    "score": 69.78
+  },
+  {
+    "iso": "SLE",
+    "name": "Sierra Leone",
+    "score": 69.64
+  },
+  {
+    "iso": "HUN",
+    "name": "Hongrie",
+    "score": 69.56
+  },
+  {
+    "iso": "ISR",
+    "name": "Israël",
+    "score": 69.2
+  },
+  {
+    "iso": "GNB",
+    "name": "Guinée-Bissau",
+    "score": 69.05
+  },
+  {
+    "iso": "SRB",
+    "name": "Serbie",
+    "score": 68.82
+  },
+  {
+    "iso": "MDA",
+    "name": "Moldavie",
+    "score": 68.79
+  },
+  {
+    "iso": "GMB",
+    "name": "Gambie",
+    "score": 68.65
+  },
+  {
+    "iso": "LBR",
+    "name": "Liberia",
+    "score": 68.51
+  },
+  {
+    "iso": "MRT",
+    "name": "Mauritanie",
+    "score": 68.35
+  },
+  {
+    "iso": "MKD",
+    "name": "Macédoine du Nord",
+    "score": 68.34
+  },
+  {
+    "iso": "BEN",
+    "name": "Bénin",
+    "score": 68.26
+  },
+  {
+    "iso": "ECU",
+    "name": "Équateur",
+    "score": 68.12
+  },
+  {
+    "iso": "MDV",
+    "name": "Maldives",
+    "score": 67.84
+  },
+  {
+    "iso": "PRY",
+    "name": "Paraguay",
+    "score": 67.6
+  },
+  {
+    "iso": "KEN",
+    "name": "Kenya",
+    "score": 67.56
+  },
+  {
+    "iso": "LBN",
+    "name": "Liban",
+    "score": 67.56
+  },
+  {
+    "iso": "UKR",
+    "name": "Ukraine",
+    "score": 67.54
+  },
+  {
+    "iso": "MOZ",
+    "name": "Mozambique",
+    "score": 67.34
+  },
+  {
+    "iso": "MNE",
+    "name": "Monténégro",
+    "score": 67.26
+  },
+  {
+    "iso": "BRA",
+    "name": "Brésil",
+    "score": 67.21
+  },
+  {
+    "iso": "NPL",
+    "name": "Népal",
+    "score": 66.6
+  },
+  {
+    "iso": "GIN",
+    "name": "Guinée",
+    "score": 66.51
+  },
+  {
+    "iso": "KWT",
+    "name": "Koweït",
+    "score": 66.14
+  },
+  {
+    "iso": "AGO",
+    "name": "Angola",
+    "score": 65.04
+  },
+  {
+    "iso": "ETH",
+    "name": "Éthiopie",
+    "score": 64.89
+  },
+  {
+    "iso": "BGR",
+    "name": "Bulgarie",
+    "score": 64.89
+  },
+  {
+    "iso": "MLI",
+    "name": "Mali",
+    "score": 64.77
+  },
+  {
+    "iso": "BOL",
+    "name": "Bolivie",
+    "score": 64.62
+  },
+  {
+    "iso": "NIC",
+    "name": "Nicaragua",
+    "score": 64.47
+  },
+  {
+    "iso": "GAB",
+    "name": "Gabon",
+    "score": 64.4
+  },
+  {
+    "iso": "GTM",
+    "name": "Guatemala",
+    "score": 64.06
+  },
+  {
+    "iso": "COG",
+    "name": "Congo",
+    "score": 63.96
+  },
+  {
+    "iso": "TZA",
+    "name": "Tanzanie",
+    "score": 63.72
+  },
+  {
+    "iso": "ZMB",
+    "name": "Zambie",
+    "score": 63.62
+  },
+  {
+    "iso": "NGA",
+    "name": "Nigeria",
+    "score": 63.5
+  },
+  {
+    "iso": "AFG",
+    "name": "Afghanistan",
+    "score": 63.45
+  },
+  {
+    "iso": "TCD",
+    "name": "Tchad",
+    "score": 63.29
+  },
+  {
+    "iso": "MYS",
+    "name": "Malaisie",
+    "score": 63.26
+  },
+  {
+    "iso": "IDN",
+    "name": "Indonésie",
+    "score": 63.23
+  },
+  {
+    "iso": "UGA",
+    "name": "Ouganda",
+    "score": 60.58
+  },
+  {
+    "iso": "LKA",
+    "name": "Sri Lanka",
+    "score": 60.39
+  },
+  {
+    "iso": "ZWE",
+    "name": "Zimbabwe",
+    "score": 57.77
+  },
+  {
+    "iso": "QAT",
+    "name": "Qatar",
+    "score": 57.49
+  },
+  {
+    "iso": "COL",
+    "name": "Colombie",
+    "score": 57.18
+  },
+  {
+    "iso": "JOR",
+    "name": "Jordanie",
+    "score": 56.89
+  },
+  {
+    "iso": "CMR",
+    "name": "Cameroun",
+    "score": 56.68
+  },
+  {
+    "iso": "OMN",
+    "name": "Oman",
+    "score": 56.58
+  },
+  {
+    "iso": "ARE",
+    "name": "Émirats arabes unis",
+    "score": 56.37
+  },
+  {
+    "iso": "PHL",
+    "name": "Philippines",
+    "score": 56.09
+  },
+  {
+    "iso": "MAR",
+    "name": "Maroc",
+    "score": 56.02
+  },
+  {
+    "iso": "THA",
+    "name": "Thaïlande",
+    "score": 55.9
+  },
+  {
+    "iso": "PSE",
+    "name": "Palestine",
+    "score": 55.32
+  },
+  {
+    "iso": "MMR",
+    "name": "Birmanie",
+    "score": 55.08
+  },
+  {
+    "iso": "SSD",
+    "name": "Soudan du Sud",
+    "score": 54.35
+  },
+  {
+    "iso": "IND",
+    "name": "Inde",
+    "score": 54.33
+  },
+  {
+    "iso": "DZA",
+    "name": "Algérie",
+    "score": 54.25
+  },
+  {
+    "iso": "PAK",
+    "name": "Pakistan",
+    "score": 54.17
+  },
+  {
+    "iso": "KHM",
+    "name": "Cambodge",
+    "score": 54.1
+  },
+  {
+    "iso": "MEX",
+    "name": "Mexique",
+    "score": 53.22
+  },
+  {
+    "iso": "CAF",
+    "name": "République centrafricaine",
+    "score": 52.73
+  },
+  {
+    "iso": "HND",
+    "name": "Honduras",
+    "score": 51.47
+  },
+  {
+    "iso": "SWZ",
+    "name": "Eswatini",
+    "score": 50.91
+  },
+  {
+    "iso": "VEN",
+    "name": "Venezuela",
+    "score": 50.9
+  },
+  {
+    "iso": "RUS",
+    "name": "Russie",
+    "score": 49.69
+  },
+  {
+    "iso": "BGD",
+    "name": "Bangladesh",
+    "score": 49.26
+  },
+  {
+    "iso": "SGP",
+    "name": "Singapour",
+    "score": 48.59
+  },
+  {
+    "iso": "BRN",
+    "name": "Brunei",
+    "score": 48.52
+  },
+  {
+    "iso": "BLR",
+    "name": "Bélarus",
+    "score": 48.34
+  },
+  {
+    "iso": "COD",
+    "name": "RD Congo",
+    "score": 48.29
+  },
+  {
+    "iso": "RWA",
+    "name": "Rwanda",
+    "score": 47.57
+  },
+  {
+    "iso": "IRQ",
+    "name": "Irak",
+    "score": 47.4
+  },
+  {
+    "iso": "TUR",
+    "name": "Turquie",
+    "score": 47.19
+  },
+  {
+    "iso": "KAZ",
+    "name": "Kazakhstan",
+    "score": 47.18
+  },
+  {
+    "iso": "BDI",
+    "name": "Burundi",
+    "score": 47.11
+  },
+  {
+    "iso": "UZB",
+    "name": "Ouzbékistan",
+    "score": 46.48
+  },
+  {
+    "iso": "TJK",
+    "name": "Tadjikistan",
+    "score": 45.98
+  },
+  {
+    "iso": "LBY",
+    "name": "Libye",
+    "score": 44.23
+  },
+  {
+    "iso": "EGY",
+    "name": "Égypte",
+    "score": 43.53
+  },
+  {
+    "iso": "SOM",
+    "name": "Somalie",
+    "score": 42.76
+  },
+  {
+    "iso": "GNQ",
+    "name": "Guinée équatoriale",
+    "score": 41.65
+  },
+  {
+    "iso": "AZE",
+    "name": "Azerbaïdjan",
+    "score": 40.87
+  },
+  {
+    "iso": "BHR",
+    "name": "Bahreïn",
+    "score": 38.69
+  },
+  {
+    "iso": "YEM",
+    "name": "Yémen",
+    "score": 38.34
+  },
+  {
+    "iso": "CUB",
+    "name": "Cuba",
+    "score": 36.19
+  },
+  {
+    "iso": "IRN",
+    "name": "Iran",
+    "score": 35.59
+  },
+  {
+    "iso": "LAO",
+    "name": "Laos",
+    "score": 35.51
+  },
+  {
+    "iso": "SAU",
+    "name": "Arabie saoudite",
+    "score": 34.12
+  },
+  {
+    "iso": "DJI",
+    "name": "Djibouti",
+    "score": 28.64
+  },
+  {
+    "iso": "SYR",
+    "name": "Syrie",
+    "score": 28.22
+  },
+  {
+    "iso": "SDN",
+    "name": "Soudan",
+    "score": 27.55
+  },
+  {
+    "iso": "VNM",
+    "name": "Viêt Nam",
+    "score": 25.07
+  },
+  {
+    "iso": "CHN",
+    "name": "Chine",
+    "score": 21.08
+  },
+  {
+    "iso": "ERI",
+    "name": "Érythrée",
+    "score": 19.74
+  },
+  {
+    "iso": "PRK",
+    "name": "Corée du Nord",
+    "score": 16.6
+  },
+  {
+    "iso": "TKM",
+    "name": "Turkménistan",
+    "score": 14.56
+  }
+]
