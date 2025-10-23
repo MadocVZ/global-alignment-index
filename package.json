@@ -15,10 +15,12 @@
     "fetch:life": "tsx scripts/pipelines/life_expectancy.ts",
     "fetch:u5": "tsx scripts/pipelines/u5_mortality.ts",
     "fetch:battle-deaths": "ts-node scripts/fetch_battle_deaths.ts",
+    "fetch:pfsi": "ts-node --transpile-only scripts/fetch_press_freedom_suppression_index.ts",
     "pipelines:firearm_stock_per_100": "node scripts/pipelines/firearm_stock_per_100.js",
     "validate:sources": "node scripts/validate-sources.cjs"
   },
   "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
     "clsx": "2.1.1",
     "fflate": "^0.8.1",
     "next": "14.2.5",

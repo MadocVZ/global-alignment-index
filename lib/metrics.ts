@@ -48,6 +48,16 @@ export const METRICS: Metric[] = [
     subtitle: 'Share of articles with ≥2 affiliation countries',
     detailPath: '/metrics/scientific-coauthorship-share',
   },
+  {
+    id: 'press_freedom_suppression_index',
+    name: 'Press Freedom Suppression Index (RSF)',
+    domain: 'Truth & Clarity',
+    unit: 'index (0–100)',
+    direction: 'up_is_better',
+    source: 'Reporters Without Borders',
+    dataPath: '/data/press_freedom_suppression_index.json',
+    subtitle: 'Suppression = 100 − RSF score; population-weighted global mean',
+  },
   { id: 'homicide_rate', name: 'Intentional homicide rate per 100 000', domain: 'Safety & Care', unit: 'per 100,000 people', direction: 'down_is_better', source: 'UNODC & WHO via WDI' },
   {
     id: 'military_expenditure_per_capita',

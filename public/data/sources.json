@@ -263,5 +263,35 @@
     "notes": "Filters: type_crossref:journal-article|proceedings-article, primary_location.is_published:true, primary_location.source.has_issn:true, is_paratext:false. Rate-limit aware with backoff. Dataset capped to latest complete year by continuity check; current cap = 2023.",
     "updated_at": "2025-10-16",
     "data_start_year": 1990
+  },
+  "rsf_press_freedom_index": {
+    "id": "rsf_press_freedom_index",
+    "name": "Reporters Without Borders (RSF) — World Press Freedom Index",
+    "publisher": "Reporters Without Borders",
+    "publisher_url": "https://rsf.org/en/index",
+    "methodology_url": "https://rsf.org/en/methodology-used-compiling-world-press-freedom-index-2024",
+    "license": "Per RSF terms; aggregated statistics with attribution",
+    "coverage_years": "2002–present",
+    "notes": "Score 0–100 where 100 = best freedom. Suppression = 100 − score; population-weighted global mean."
+  },
+  "press_freedom_suppression_index": {
+    "name": "Press Freedom Suppression Index (RSF)",
+    "domain": "Truth & Clarity",
+    "unit": "index (0–100)",
+    "source_org": "Reporters Without Borders (RSF)",
+    "source_url": "https://rsf.org/en/index",
+    "license": "Per RSF terms; aggregated statistics with attribution",
+    "cadence": "annual",
+    "method": "Suppression = 100 − RSF World Press Freedom Index score; population-weighted global mean using WDI populations; keep the longest contiguous block with ≥95% global coverage; 1-decimal rounding.",
+    "updated_at": "2025-10-23",
+    "data_start_year": 2012,
+    "inputs": [
+      "rsf_press_freedom_index",
+      "wdi_sp_pop_totl"
+    ],
+    "produces": [
+      "public/data/press_freedom_suppression_index.json"
+    ],
+    "type": "derived"
   }
 }

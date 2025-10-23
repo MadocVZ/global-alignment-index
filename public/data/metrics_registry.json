@@ -146,5 +146,16 @@
     "precision": 1,
     "reference_min": 9.0,
     "reference_max": 21.0
+  },
+  {
+    "id": "press_freedom_suppression_index",
+    "name": "Press Freedom Suppression Index (RSF)",
+    "direction": "up",
+    "tier": 1,
+    "layer": "international",
+    "alignment_or_capability": "capability",
+    "domain": "truth_and_clarity",
+    "precision": 1,
+    "last_reviewed": "2025-10-23"
   }
 ]

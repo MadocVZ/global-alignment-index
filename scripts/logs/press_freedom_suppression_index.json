@@ -1,0 +1,33 @@
+{
+  "metric_id": "press_freedom_suppression_index",
+  "rows": 13,
+  "min_year": 2012,
+  "max_year": 2024,
+  "mean": 47.4,
+  "coverage_rule": "≥95% world population per year; keep the longest contiguous valid block",
+  "transform": "100 - RSF_score",
+  "population_weighted": true,
+  "warn_unmapped": [],
+  "notes": [
+    "missing_population_entries=78"
+  ],
+  "dropped_leading_years": [
+    2002,
+    2003,
+    2004,
+    2005,
+    2006,
+    2007,
+    2008,
+    2009,
+    2010,
+    2011
+  ],
+  "dropped_trailing_years": [
+    2025
+  ],
+  "kept_span": {
+    "start": 2012,
+    "end": 2024
+  }
+}

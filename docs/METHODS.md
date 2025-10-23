@@ -49,3 +49,11 @@
 - Method: OpenAlex /works group_by=publication_year for totals (countries_distinct_count:>0) and international (countries_distinct_count:>1). Share = (international / total) × 100; round to one decimal place.
 - Data window: 1990 → latest *complete* year, detected via continuity check (drop a tail year when its total is <95% of the prior year, up to two passes).
 - Notes: Levels may be conservative relative to Scopus S&E “articles+reviews.” GAISUM logs capture filters_applied, diagnostics (key-year shares/counts), and the completeness cap year.
+
+### Press Freedom Suppression Index (RSF) — Global, population-weighted
+- Definition: RSF World Press Freedom scores inverted (suppression = 100 − score); higher values indicate greater suppression.
+- Computation: Normalize RSF country scores to ISO3, join World Bank SP.POP.TOTL populations, compute annual population-weighted means, and keep only the longest contiguous run with ≥95% coverage; values rounded to 1 decimal.
+- Years: 2012 → latest kept year (currently 2024) after the coverage + continuity checks.
+- Precision: 1 decimal (Math.round to one place via `toFixed(1)`).
+- Source: Reporters Without Borders — World Press Freedom Index CSV exports (2002 onward) with fixture/caching guardrails; transform = 100 − score.
+- Why capability: Captures systemic capacity to suppress truth and clarity via control of press freedoms.
