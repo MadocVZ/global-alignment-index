@@ -1,5 +1,5 @@
 import { existsSync } from 'node:fs';
-import { readFile } from 'node:fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 
 import { writeJson } from './lib/io.ts';
@@ -48,6 +48,9 @@ const USER_AGENT = 'GAI-dtp3-coverage/1.0';
 export type CoverageRow = { iso3: string; year: number; coverage: number };
 export type PopRow = { iso3: string; year: number; population: number };
 export type GlobalYear = { year: number; value: number };
+
+type PublishedPoint = { year: number; value: number };
+const round1 = (n: number) => Math.round(n * 10) / 10;
 
 type FetchResult = { rows: CoverageRow[]; source: 'wdi' | 'cache' };
 
@@ -107,7 +110,8 @@ async function main(): Promise<void> {
   const years = Array.from(byYear.keys()).sort((a, b) => a - b);
   const maxYear = years[years.length - 1];
 
-  const published: GlobalYear[] = [];
+  const published: PublishedPoint[] = [];
+  const rawPublished: GlobalYear[] = [];
   const gaisumCoverage: GaisumYear[] = [];
   const yearWeights = new Map<number, { popShare: number; weightTotal: number }>();
   let continuityWarning = false;
@@ -135,7 +139,9 @@ async function main(): Promise<void> {
       break;
     }
 
-    published.push(publishedYear);
+    const roundedValue = round1(publishedYear.value);
+    published.push({ year: publishedYear.year, value: roundedValue });
+    rawPublished.push({ year: publishedYear.year, value: publishedYear.value });
     yearWeights.set(year, { popShare: coverageInfo.pop_share, weightTotal });
   }
 
@@ -143,28 +149,23 @@ async function main(): Promise<void> {
     throw new Error('[dtp3] no published years');
   }
 
-  const values = published.map((point) => point.value);
+  const values = rawPublished.map((point) => point.value);
   const globalMin = Math.min(...values);
   const globalMax = Math.max(...values);
-  const latestPoint = published[published.length - 1];
+  const latestPoint = rawPublished[rawPublished.length - 1];
   const currentYear = new Date().getUTCFullYear();
 
   const rangeWarning = globalMin < RANGE_MIN || globalMax > RANGE_MAX;
   const stale = latestPoint.year < currentYear - 2;
 
-  const outputSeries = published.map((point) => ({
-    year: point.year,
-    value: round1(point.value),
-  }));
-
-  validateOutputSeries(outputSeries);
+  validateOutputSeries(published);
   assertWeights(yearWeights);
-  assertLatestYear(byYear, population, outputSeries[outputSeries.length - 1].year);
+  assertLatestYear(byYear, population, published[published.length - 1].year);
 
   const log: GaisumLog = {
     id: 'dtp3_coverage',
     rows: filtered.length,
-    years: { min: outputSeries[0].year, max: outputSeries[outputSeries.length - 1].year },
+    years: { min: published[0].year, max: published[published.length - 1].year },
     global: {
       min: Number(globalMin.toFixed(2)),
       max: Number(globalMax.toFixed(2)),
@@ -184,10 +185,11 @@ async function main(): Promise<void> {
     ts: new Date().toISOString(),
   };
 
-  await writeJson(OUTPUT_DATA, outputSeries);
+  assertSchema(published);
+  await writeFile(OUTPUT_DATA, JSON.stringify(published, null, 2));
   await writeJson(OUTPUT_LOG, log);
 
-  console.log(`[dtp3] wrote ${outputSeries.length} years to ${OUTPUT_DATA}`);
+  console.log(`[dtp3] wrote ${published.length} years to ${OUTPUT_DATA}`);
   console.log(`[dtp3] GAISUM min=${log.global.min} max=${log.global.max} latest=${log.global.latest.value}@${log.global.latest.year}`);
   console.log(`[dtp3] pop coverage shares: ${log.coverage.map((c) => `${c.year}:${c.pop_share.toFixed(3)}`).join(', ')}`);
 }
@@ -439,10 +441,6 @@ function computeYear(
   };
 }
 
-function round1(value: number): number {
-  return Math.round(value * 10) / 10;
-}
-
 function round2(value: number): number {
   return Math.round(value * 100) / 100;
 }
@@ -469,6 +467,18 @@ function validateOutputSeries(series: Array<{ year: number; value: number }>): v
     if (precise !== point.value) {
       throw new Error(`[dtp3] output rounding mismatch at year ${point.year}`);
     }
+  }
+}
+
+function assertSchema(a: any[]): void {
+  if (!Array.isArray(a) || a.length === 0) throw new Error('Series empty');
+  for (const [i, x] of a.entries()) {
+    const ok =
+      x &&
+      Object.keys(x).length === 2 &&
+      Number.isInteger(x.year) &&
+      typeof x.value === 'number';
+    if (!ok) throw new Error(`Schema fail at index ${i}: ${JSON.stringify(x)}`);
   }
 }
 
