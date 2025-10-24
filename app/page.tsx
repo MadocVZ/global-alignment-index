@@ -4,6 +4,7 @@ import { loadSeriesPercent } from '@/lib/metrics'
 
 export const revalidate = 0
 export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
 
 export default async function HomePage() {
   const dtp3Series = await loadSeriesPercent('/data/dtp3_coverage.json')

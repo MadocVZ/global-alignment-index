@@ -1,10 +1,12 @@
 import Link from 'next/link'
 
-import { loadSeriesPercent, type YearValue } from '@/lib/metrics'
+import { loadSeriesPercent } from '@/lib/metrics'
+import type { YearValue } from '@/lib/metrics-shared'
 import Dtp3Chart from './Dtp3Chart'
 
 export const revalidate = 0
 export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
 
 const DATA_PATH = '/data/dtp3_coverage.json'
 const TOOLTIP_COPY =

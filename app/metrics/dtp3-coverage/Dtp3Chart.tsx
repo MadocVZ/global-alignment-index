@@ -11,7 +11,7 @@ import {
 } from 'recharts'
 import type { TooltipProps } from 'recharts'
 
-import type { YearValue } from '@/lib/metrics'
+import type { YearValue } from '@/lib/metrics-shared'
 
 type Props = {
   series: YearValue[]

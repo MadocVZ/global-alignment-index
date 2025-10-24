@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts'
 
-import { METRICS, type Metric, type YearValue } from '@/lib/metrics'
+import { METRICS, type Metric, type YearValue } from '@/lib/metrics-shared'
 import { computeRelative } from '@/lib/relative'
 import SourcesFooter from '@/components/SourcesFooter'
 
