@@ -24,15 +24,13 @@ export function toYearValuePercent(raw: AnyPoint[]): YearValue[] {
 }
 
 export async function loadSeriesPercent(path: string): Promise<YearValue[]> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}${path}`, {
-    cache: 'no-store' as RequestCache,
-  })
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}${path}`)
   if (!res.ok) {
     console.warn('[metrics] failed to load series', path, res.status, res.statusText)
     return []
   }
   const raw = await res.json()
-  const series = toYearValuePercent(raw)
+  const series = toYearValuePercent(raw as AnyPoint[])
   console.log('[metrics] loaded', path, 'len=', series.length, 'first=', series[0], 'last=', series.at(-1))
   return series
 }
