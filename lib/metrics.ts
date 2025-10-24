@@ -1,5 +1,5 @@
-import { METRICS, toYearValuePercent } from './metrics-shared'
-import type { AnyPoint, Direction, Metric, YearValue } from './metrics-shared'
+import { METRICS, toYearValuePercent } from './metrics-shared.js'
+import type { AnyPoint, Direction, Metric, YearValue } from './metrics-shared.js'
 
 async function readPublicJson<T = unknown>(rel: string): Promise<T | null> {
   try {
