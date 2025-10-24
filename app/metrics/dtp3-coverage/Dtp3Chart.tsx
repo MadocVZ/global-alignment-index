@@ -19,6 +19,13 @@ type Props = {
 }
 
 export default function Dtp3Chart({ series, domain }: Props) {
+  if (!series?.length) {
+    return (
+      <div className="flex h-full w-full items-center justify-center text-sm text-amber-500">
+        Awaiting recent data. (series length: {series?.length ?? 0})
+      </div>
+    )
+  }
   return (
     <ResponsiveContainer width="100%" height="100%">
       <LineChart data={series} margin={{ top: 20, right: 20, left: 10, bottom: 10 }}>
