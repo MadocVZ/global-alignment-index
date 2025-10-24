@@ -45,12 +45,17 @@ const RANGE_MAX = 90;
 
 const USER_AGENT = 'GAI-dtp3-coverage/1.0';
 
+// Keep COVERAGE_KEYS in sync with scripts/validate-datasets.cjs (coverage series schema).
+const COVERAGE_KEYS: Array<keyof PublishedPoint> = ['year', 'coverage', 'n_iso', 'n_pop'];
+const COVERAGE_KEY_SIGNATURE = JSON.stringify([...COVERAGE_KEYS].sort());
+
 export type CoverageRow = { iso3: string; year: number; coverage: number };
 export type PopRow = { iso3: string; year: number; population: number };
 export type GlobalYear = { year: number; value: number };
 
-type PublishedPoint = { year: number; value: number };
+type PublishedPoint = { year: number; coverage: number; n_iso: number; n_pop: number };
 const round1 = (n: number) => Math.round(n * 10) / 10;
+const roundCoverage = (n: number) => Math.round(n * 1000) / 1000;
 
 type FetchResult = { rows: CoverageRow[]; source: 'wdi' | 'cache' };
 
@@ -75,7 +80,7 @@ type GaisumLog = {
   range_warning: boolean;
   continuity_warning: boolean;
   stale: boolean;
-  schema: 'year,value(%)';
+  schema: 'year,coverage(0-1),n_iso,n_pop';
   source: 'wdi' | 'cache';
   ts: string;
 };
@@ -126,7 +131,7 @@ async function main(): Promise<void> {
       break;
     }
 
-    const { publishedYear, coverageInfo, weightTotal } = computeYear(rows, population, year);
+    const { publishedYear, coverageInfo } = computeYear(rows, population, year);
     gaisumCoverage.push(coverageInfo);
 
     if (!publishedYear) {
@@ -134,15 +139,19 @@ async function main(): Promise<void> {
       break;
     }
 
-    if (!coverageInfo.coverage_ok) {
-      // Record the year in GAISUM but do not publish beyond threshold.
-      break;
-    }
-
-    const roundedValue = round1(publishedYear.value);
-    published.push({ year: publishedYear.year, value: roundedValue });
-    rawPublished.push({ year: publishedYear.year, value: publishedYear.value });
-    yearWeights.set(year, { popShare: coverageInfo.pop_share, weightTotal });
+    const roundedValue = round1(publishedYear.meanPercent);
+    const coverageFraction = roundCoverage(publishedYear.meanPercent / 100);
+    published.push({
+      year: publishedYear.year,
+      coverage: coverageFraction,
+      n_iso: publishedYear.nIsoJoined,
+      n_pop: publishedYear.nIsoUniverse,
+    });
+    rawPublished.push({ year: publishedYear.year, value: publishedYear.meanPercent });
+    yearWeights.set(year, {
+      popShare: coverageInfo.pop_share,
+      weightTotal: publishedYear.weightTotal,
+    });
   }
 
   if (!published.length) {
@@ -180,7 +189,7 @@ async function main(): Promise<void> {
     range_warning: rangeWarning,
     continuity_warning: continuityWarning,
     stale,
-    schema: 'year,value(%)',
+    schema: 'year,coverage(0-1),n_iso,n_pop',
     source,
     ts: new Date().toISOString(),
   };
@@ -410,34 +419,52 @@ function computeYear(
   rows: CoverageRow[],
   population: PopMaps,
   year: number,
-): { publishedYear?: GlobalYear; coverageInfo: GaisumYear; weightTotal: number } {
+): {
+  publishedYear?: {
+    year: number;
+    meanPercent: number;
+    nIsoJoined: number;
+    nIsoUniverse: number;
+    weightTotal: number;
+    totalPop: number;
+  };
+  coverageInfo: GaisumYear;
+} {
   const popMap = population.byYear.get(year);
   if (!popMap) {
-    return { coverageInfo: { year, pop_share: 0, coverage_ok: false }, weightTotal: 0 };
+    return { coverageInfo: { year, pop_share: 0, coverage_ok: false } };
   }
 
   const totalPop = population.totals.get(year) ?? 0;
   let weightedSum = 0;
   let weightTotal = 0;
+  let nIsoJoined = 0;
 
   for (const row of rows) {
     const pop = popMap.get(row.iso3);
     if (typeof pop !== 'number' || !Number.isFinite(pop) || pop <= 0) continue;
     weightedSum += round2(row.coverage) * pop;
     weightTotal += pop;
+    nIsoJoined += 1;
   }
 
   if (weightTotal <= 0) {
-    return { coverageInfo: { year, pop_share: 0, coverage_ok: false }, weightTotal };
+    return { coverageInfo: { year, pop_share: 0, coverage_ok: false } };
   }
 
   const popShare = totalPop > 0 ? weightTotal / totalPop : 0;
   const mean = round2(weightedSum / weightTotal);
 
   return {
-    publishedYear: { year, value: mean },
+    publishedYear: {
+      year,
+      meanPercent: mean,
+      nIsoJoined,
+      nIsoUniverse: popMap.size,
+      weightTotal,
+      totalPop,
+    },
     coverageInfo: { year, pop_share: popShare, coverage_ok: popShare >= 0.95 },
-    weightTotal,
   };
 }
 
@@ -445,7 +472,7 @@ function round2(value: number): number {
   return Math.round(value * 100) / 100;
 }
 
-function validateOutputSeries(series: Array<{ year: number; value: number }>): void {
+function validateOutputSeries(series: PublishedPoint[]): void {
   if (!Array.isArray(series) || !series.length) {
     throw new Error('[dtp3] output series empty');
   }
@@ -454,18 +481,28 @@ function validateOutputSeries(series: Array<{ year: number; value: number }>): v
     if (!Number.isInteger(point.year)) {
       throw new Error(`[dtp3] invalid year at index ${i}`);
     }
-    if (point.value < 0 || point.value > 100) {
-      throw new Error(`[dtp3] invalid value range at year ${point.year}`);
+    const keys = Object.keys(point).sort();
+    if (JSON.stringify(keys) !== COVERAGE_KEY_SIGNATURE) {
+      throw new Error(`[dtp3] schema mismatch at year ${point.year}: ${keys.join(',')}`);
     }
     if (i > 0 && point.year !== series[i - 1].year + 1) {
       throw new Error('[dtp3] year sequence not contiguous');
     }
-    if (Number.isNaN(point.value) || !Number.isFinite(point.value)) {
-      throw new Error(`[dtp3] invalid numeric value at year ${point.year}`);
+    if (Number.isNaN(point.coverage) || !Number.isFinite(point.coverage)) {
+      throw new Error(`[dtp3] invalid coverage value at year ${point.year}`);
     }
-    const precise = round1(point.value);
-    if (precise !== point.value) {
-      throw new Error(`[dtp3] output rounding mismatch at year ${point.year}`);
+    if (point.coverage < 0 || point.coverage > 1) {
+      throw new Error(`[dtp3] coverage fraction out of range at year ${point.year}`);
+    }
+    const scaled = Math.round(point.coverage * 1000);
+    if (Math.abs(point.coverage * 1000 - scaled) > 1e-6) {
+      throw new Error(`[dtp3] coverage fraction must be 3dp at year ${point.year}`);
+    }
+    if (!Number.isInteger(point.n_iso) || point.n_iso <= 0) {
+      throw new Error(`[dtp3] n_iso invalid at year ${point.year}`);
+    }
+    if (!Number.isInteger(point.n_pop) || point.n_pop < point.n_iso) {
+      throw new Error(`[dtp3] n_pop invalid at year ${point.year}`);
     }
   }
 }
@@ -473,12 +510,10 @@ function validateOutputSeries(series: Array<{ year: number; value: number }>): v
 function assertSchema(a: any[]): void {
   if (!Array.isArray(a) || a.length === 0) throw new Error('Series empty');
   for (const [i, x] of a.entries()) {
-    const ok =
-      x &&
-      Object.keys(x).length === 2 &&
-      Number.isInteger(x.year) &&
-      typeof x.value === 'number';
-    if (!ok) throw new Error(`Schema fail at index ${i}: ${JSON.stringify(x)}`);
+    const keys = Object.keys(x ?? {}).sort();
+    if (JSON.stringify(keys) !== COVERAGE_KEY_SIGNATURE) {
+      throw new Error(`Schema fail at index ${i}: ${JSON.stringify(x)}`);
+    }
   }
 }
 
@@ -504,11 +539,12 @@ function assertLatestYear(
     if (year < START_YEAR) continue;
     const rows = byYear.get(year);
     if (!rows?.length) break;
-    const { coverageInfo } = computeYear(rows, population, year);
+    const { publishedYear, coverageInfo } = computeYear(rows, population, year);
+    if (!publishedYear) break;
+    maxValidYear = year;
     if (!coverageInfo.coverage_ok) {
       break;
     }
-    maxValidYear = year;
   }
   if (maxValidYear === undefined) {
     throw new Error('[dtp3] no valid year reached population threshold');

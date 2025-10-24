@@ -19,6 +19,7 @@ const fetchVersion = process.env.NEXT_PUBLIC_COMMIT_SHA ?? Date.now().toString()
 const TOOLTIP_COPY =
   "DTP3 isn’t about this vaccine — it’s a stress test of care continuity. Reaching ‘dose 3’ means the system reliably finds and serves families."
 
+type RawPoint = { year: number; coverage: number; n_iso: number; n_pop: number }
 type Point = { year: number; value: number }
 
 type State = {
@@ -55,11 +56,15 @@ export default function Dtp3CoveragePage() {
           }
           return
         }
-        const raw = (await res.json()) as Point[]
+        const raw = (await res.json()) as RawPoint[]
         const cleaned = Array.isArray(raw)
           ? raw
-              .map(p => ({ year: Number(p.year), value: Number(p.value) }))
-              .filter(p => Number.isFinite(p.year) && Number.isFinite(p.value))
+              .map(p => ({
+                year: Number(p.year),
+                coverage: Number(p.coverage),
+              }))
+              .filter(p => Number.isInteger(p.year) && Number.isFinite(p.coverage) && p.coverage >= 0 && p.coverage <= 1)
+              .map(p => ({ year: p.year, value: Math.round(p.coverage * 1000) / 10 }))
               .sort((a, b) => a.year - b.year)
           : []
         if (!cleaned.length) {

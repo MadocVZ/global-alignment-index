@@ -194,7 +194,7 @@
   "range_warning": false,
   "continuity_warning": false,
   "stale": false,
-  "schema": "year,value(%)",
+  "schema": "year,coverage(0-1),n_iso,n_pop",
   "source": "cache",
-  "ts": "2025-10-24T09:40:30.251Z"
+  "ts": "2025-10-24T11:57:09.385Z"
 }

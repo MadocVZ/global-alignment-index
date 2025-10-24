@@ -19,6 +19,7 @@
     "fetch:dtp3": "tsx scripts/fetch_dtp3_coverage.ts",
     "repair:dtp3": "tsx scripts/repair_dtp3_schema.ts",
     "verify:dtp3": "tsx scripts/verify_dtp3_schema.ts",
+    "debug:dtp3": "tsx scripts/debug_print_first_item.ts",
     "pipelines:firearm_stock_per_100": "node scripts/pipelines/firearm_stock_per_100.js",
     "validate:sources": "node scripts/validate-sources.cjs"
   },
