@@ -58,6 +58,16 @@ export const METRICS: Metric[] = [
     dataPath: '/data/press_freedom_suppression_index.json',
     subtitle: 'Suppression = 100 − RSF score; population-weighted global mean',
   },
+  {
+    id: 'dtp3_coverage',
+    name: 'DTP3 immunization coverage (%)',
+    domain: 'Care',
+    unit: '%',
+    direction: 'up_is_better',
+    source: 'WHO/UNICEF Joint Reporting Form via World Bank',
+    dataPath: '/data/dtp3_coverage.json',
+    detailPath: '/metrics/dtp3-coverage',
+  },
   { id: 'homicide_rate', name: 'Intentional homicide rate per 100 000', domain: 'Safety & Care', unit: 'per 100,000 people', direction: 'down_is_better', source: 'UNODC & WHO via WDI' },
   {
     id: 'military_expenditure_per_capita',

@@ -157,5 +157,17 @@
     "domain": "truth_and_clarity",
     "precision": 1,
     "last_reviewed": "2025-10-23"
+  },
+  {
+    "id": "dtp3_coverage",
+    "name": "DTP3 immunization coverage (%)",
+    "direction": "up",
+    "tier": 1,
+    "layer": "national",
+    "alignment_or_capability": "alignment",
+    "domain": "care",
+    "precision": 1,
+    "series": "global_yearly",
+    "last_reviewed": "<CI will inject ISO date>"
   }
 ]

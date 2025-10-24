@@ -16,6 +16,7 @@
     "fetch:u5": "tsx scripts/pipelines/u5_mortality.ts",
     "fetch:battle-deaths": "ts-node scripts/fetch_battle_deaths.ts",
     "fetch:pfsi": "ts-node --transpile-only scripts/fetch_press_freedom_suppression_index.ts",
+    "fetch:dtp3": "tsx scripts/fetch_dtp3_coverage.ts",
     "pipelines:firearm_stock_per_100": "node scripts/pipelines/firearm_stock_per_100.js",
     "validate:sources": "node scripts/validate-sources.cjs"
   },

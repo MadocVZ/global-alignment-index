@@ -166,6 +166,19 @@
     "updated_at": "2025-10-15",
     "data_start_year": 1977
   },
+  "dtp3_coverage": {
+    "name": "DTP3 immunization coverage (%)",
+    "domain": "Care",
+    "unit": "%",
+    "source_org": "WHO/UNICEF Joint Reporting Form via World Bank WDI",
+    "source_url": "https://api.worldbank.org/v2/country/all/indicator/SH.IMM.IDPT",
+    "license": "WHO/UNICEF/WB public data terms (CC BY 4.0)",
+    "cadence": "annual",
+    "method": "Fetch WDI SH.IMM.IDPT, filter ISO-3 countries (excl. aggregates), join World Bank population weights, require ≥95% coverage, population-weight global mean, log GAISUM, emit 1-decimal global series.",
+    "pipeline": "scripts/fetch_dtp3_coverage.ts",
+    "indicators": ["SH.IMM.IDPT"],
+    "updated_at": "2025-10-24"
+  },
   "wb_population_total": {
     "name": "World population (total)",
     "domain": "Safety & Care",
