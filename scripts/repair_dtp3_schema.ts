@@ -16,35 +16,26 @@ import fs from 'node:fs/promises';
     .filter(Boolean)
     .map((r: any) => {
       const year = Number(r.year ?? r.Year ?? r.date);
-      const percentValue = Number(
+      const valueRaw = Number(
         typeof r.value === 'number'
           ? r.value
-          : r.Value ?? r.coverage ?? r.val ?? r.v,
+          : r.Value ?? r.coverage ?? r.val ?? r.v ?? r.meanPercent ?? r.mean_percent,
       );
-      const fraction = Number.isFinite(percentValue)
-        ? percentValue / 100
-        : Number(r.coverage ?? r.rate ?? r.fraction);
-      const nIsoRaw = Number(r.n_iso ?? r.iso_count ?? r.iso ?? r.count ?? r.countries ?? 0);
-      const nPopRaw = Number(r.n_pop ?? r.population ?? r.pop_count ?? 0);
-      const nIso = Number.isFinite(nIsoRaw) && nIsoRaw > 0 ? Math.round(nIsoRaw) : 1;
-      const nPop = Number.isFinite(nPopRaw) && nPopRaw >= nIso ? Math.round(nPopRaw) : nIso;
+      const percent = Number.isFinite(valueRaw)
+        ? valueRaw
+        : Number(r.coverage ?? r.rate ?? r.fraction) * 100;
       return {
         year,
-        coverage: Math.round(Math.max(0, Math.min(1, Number(fraction))) * 1000) / 1000,
-        n_iso: nIso,
-        n_pop: nPop,
+        value: Math.round(Math.max(0, Math.min(100, Number(percent))) * 10) / 10,
       };
     })
     .filter(
       (r) =>
         Number.isInteger(r.year) &&
-        Number.isFinite(r.coverage) &&
-        r.coverage >= 0 &&
-        r.coverage <= 1 &&
-        Number.isInteger(r.n_iso) &&
-        Number.isInteger(r.n_pop) &&
-        r.n_iso > 0 &&
-        r.n_pop >= r.n_iso,
+        Number.isFinite(r.value) &&
+        r.value >= 0 &&
+        r.value <= 100 &&
+        Math.round(r.value * 10) === r.value * 10,
     )
     .sort((a, b) => a.year - b.year)
     .filter((r, i, arr) => i === 0 || r.year !== arr[i - 1].year);

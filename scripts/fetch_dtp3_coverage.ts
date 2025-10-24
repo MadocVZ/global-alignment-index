@@ -43,19 +43,17 @@ const OUTPUT_LOG = resolve(process.cwd(), 'scripts/logs/dtp3_coverage.log.json')
 const RANGE_MIN = 60;
 const RANGE_MAX = 90;
 
-const USER_AGENT = 'GAI-dtp3-coverage/1.0';
+const PUBLISHED_KEY_SIGNATURE = JSON.stringify(['value', 'year']);
 
-// Keep COVERAGE_KEYS in sync with scripts/validate-datasets.cjs (coverage series schema).
-const COVERAGE_KEYS: Array<keyof PublishedPoint> = ['year', 'coverage', 'n_iso', 'n_pop'];
-const COVERAGE_KEY_SIGNATURE = JSON.stringify([...COVERAGE_KEYS].sort());
+const USER_AGENT = 'GAI-dtp3-coverage/1.0';
 
 export type CoverageRow = { iso3: string; year: number; coverage: number };
 export type PopRow = { iso3: string; year: number; population: number };
 export type GlobalYear = { year: number; value: number };
 
-type PublishedPoint = { year: number; coverage: number; n_iso: number; n_pop: number };
+// Keep PublishedPoint keys in sync with scripts/validate-datasets.cjs (global series expects ["year","value"]).
+type PublishedPoint = { year: number; value: number };
 const round1 = (n: number) => Math.round(n * 10) / 10;
-const roundCoverage = (n: number) => Math.round(n * 1000) / 1000;
 
 type FetchResult = { rows: CoverageRow[]; source: 'wdi' | 'cache' };
 
@@ -64,7 +62,14 @@ type PopMaps = {
   totals: Map<number, number>;
 };
 
-type GaisumYear = { year: number; pop_share: number; coverage_ok: boolean };
+type GaisumYear = {
+  year: number;
+  pop_share: number;
+  coverage_ok: boolean;
+  value_percent?: number;
+  n_iso_joined?: number;
+  n_iso_universe?: number;
+};
 
 type GaisumLog = {
   id: 'dtp3_coverage';
@@ -75,12 +80,19 @@ type GaisumLog = {
     max: number;
     latest: { year: number; value: number };
   };
-  coverage: GaisumYear[];
+  coverage: Array<{
+    year: number;
+    pop_share: number;
+    coverage_ok: boolean;
+    value_percent?: number;
+    n_iso_joined?: number;
+    n_iso_universe?: number;
+  }>;
   dropped_out_of_bounds: number;
   range_warning: boolean;
   continuity_warning: boolean;
   stale: boolean;
-  schema: 'year,coverage(0-1),n_iso,n_pop';
+  schema: 'year,value(%)';
   source: 'wdi' | 'cache';
   ts: string;
 };
@@ -118,7 +130,10 @@ async function main(): Promise<void> {
   const published: PublishedPoint[] = [];
   const rawPublished: GlobalYear[] = [];
   const gaisumCoverage: GaisumYear[] = [];
-  const yearWeights = new Map<number, { popShare: number; weightTotal: number }>();
+  const yearDiagnostics = new Map<
+    number,
+    { popShare: number; weightTotal: number; nIsoJoined: number; nIsoUniverse: number }
+  >();
   let continuityWarning = false;
 
   const candidateMax = Math.max(maxYear, START_YEAR);
@@ -140,17 +155,16 @@ async function main(): Promise<void> {
     }
 
     const roundedValue = round1(publishedYear.meanPercent);
-    const coverageFraction = roundCoverage(publishedYear.meanPercent / 100);
     published.push({
       year: publishedYear.year,
-      coverage: coverageFraction,
-      n_iso: publishedYear.nIsoJoined,
-      n_pop: publishedYear.nIsoUniverse,
+      value: roundedValue,
     });
     rawPublished.push({ year: publishedYear.year, value: publishedYear.meanPercent });
-    yearWeights.set(year, {
+    yearDiagnostics.set(year, {
       popShare: coverageInfo.pop_share,
       weightTotal: publishedYear.weightTotal,
+      nIsoJoined: publishedYear.nIsoJoined,
+      nIsoUniverse: publishedYear.nIsoUniverse,
     });
   }
 
@@ -168,7 +182,7 @@ async function main(): Promise<void> {
   const stale = latestPoint.year < currentYear - 2;
 
   validateOutputSeries(published);
-  assertWeights(yearWeights);
+  assertWeights(yearDiagnostics);
   assertLatestYear(byYear, population, published[published.length - 1].year);
 
   const log: GaisumLog = {
@@ -180,16 +194,35 @@ async function main(): Promise<void> {
       max: Number(globalMax.toFixed(2)),
       latest: { year: latestPoint.year, value: Number(latestPoint.value.toFixed(2)) },
     },
-    coverage: gaisumCoverage.map((item) => ({
-      year: item.year,
-      pop_share: Number(item.pop_share.toFixed(3)),
-      coverage_ok: item.coverage_ok,
-    })),
+    coverage: gaisumCoverage.map((item) => {
+      const entry: {
+        year: number;
+        pop_share: number;
+        coverage_ok: boolean;
+        value_percent?: number;
+        n_iso_joined?: number;
+        n_iso_universe?: number;
+      } = {
+        year: item.year,
+        pop_share: Number(item.pop_share.toFixed(3)),
+        coverage_ok: item.coverage_ok,
+      };
+      if (typeof item.value_percent === 'number') {
+        entry.value_percent = Number(item.value_percent.toFixed(2));
+      }
+      if (typeof item.n_iso_joined === 'number') {
+        entry.n_iso_joined = item.n_iso_joined;
+      }
+      if (typeof item.n_iso_universe === 'number') {
+        entry.n_iso_universe = item.n_iso_universe;
+      }
+      return entry;
+    }),
     dropped_out_of_bounds: droppedOutOfBounds,
     range_warning: rangeWarning,
     continuity_warning: continuityWarning,
     stale,
-    schema: 'year,coverage(0-1),n_iso,n_pop',
+    schema: 'year,value(%)',
     source,
     ts: new Date().toISOString(),
   };
@@ -464,7 +497,14 @@ function computeYear(
       weightTotal,
       totalPop,
     },
-    coverageInfo: { year, pop_share: popShare, coverage_ok: popShare >= 0.95 },
+    coverageInfo: {
+      year,
+      pop_share: popShare,
+      coverage_ok: popShare >= 0.95,
+      value_percent: mean,
+      n_iso_joined: nIsoJoined,
+      n_iso_universe: popMap.size,
+    },
   };
 }
 
@@ -482,27 +522,21 @@ function validateOutputSeries(series: PublishedPoint[]): void {
       throw new Error(`[dtp3] invalid year at index ${i}`);
     }
     const keys = Object.keys(point).sort();
-    if (JSON.stringify(keys) !== COVERAGE_KEY_SIGNATURE) {
+    if (JSON.stringify(keys) !== PUBLISHED_KEY_SIGNATURE) {
       throw new Error(`[dtp3] schema mismatch at year ${point.year}: ${keys.join(',')}`);
     }
     if (i > 0 && point.year !== series[i - 1].year + 1) {
       throw new Error('[dtp3] year sequence not contiguous');
     }
-    if (Number.isNaN(point.coverage) || !Number.isFinite(point.coverage)) {
-      throw new Error(`[dtp3] invalid coverage value at year ${point.year}`);
+    if (Number.isNaN(point.value) || !Number.isFinite(point.value)) {
+      throw new Error(`[dtp3] invalid value at year ${point.year}`);
     }
-    if (point.coverage < 0 || point.coverage > 1) {
-      throw new Error(`[dtp3] coverage fraction out of range at year ${point.year}`);
+    if (point.value < 0 || point.value > 100) {
+      throw new Error(`[dtp3] value out of range at year ${point.year}`);
     }
-    const scaled = Math.round(point.coverage * 1000);
-    if (Math.abs(point.coverage * 1000 - scaled) > 1e-6) {
-      throw new Error(`[dtp3] coverage fraction must be 3dp at year ${point.year}`);
-    }
-    if (!Number.isInteger(point.n_iso) || point.n_iso <= 0) {
-      throw new Error(`[dtp3] n_iso invalid at year ${point.year}`);
-    }
-    if (!Number.isInteger(point.n_pop) || point.n_pop < point.n_iso) {
-      throw new Error(`[dtp3] n_pop invalid at year ${point.year}`);
+    const scaled = Math.round(point.value * 10);
+    if (Math.abs(point.value * 10 - scaled) > 1e-6) {
+      throw new Error(`[dtp3] value must have 1 decimal at year ${point.year}`);
     }
   }
 }
@@ -511,19 +545,27 @@ function assertSchema(a: any[]): void {
   if (!Array.isArray(a) || a.length === 0) throw new Error('Series empty');
   for (const [i, x] of a.entries()) {
     const keys = Object.keys(x ?? {}).sort();
-    if (JSON.stringify(keys) !== COVERAGE_KEY_SIGNATURE) {
+    if (JSON.stringify(keys) !== PUBLISHED_KEY_SIGNATURE) {
       throw new Error(`Schema fail at index ${i}: ${JSON.stringify(x)}`);
     }
   }
 }
 
-function assertWeights(weights: Map<number, { popShare: number; weightTotal: number }>): void {
+function assertWeights(
+  weights: Map<number, { popShare: number; weightTotal: number; nIsoJoined: number; nIsoUniverse: number }>,
+): void {
   for (const [year, info] of weights.entries()) {
     if (!(info.weightTotal > 0)) {
       throw new Error(`[dtp3] weight sum not positive for year ${year}`);
     }
     if (info.popShare < 0) {
       throw new Error(`[dtp3] negative population share at year ${year}`);
+    }
+    if (!Number.isInteger(info.nIsoJoined) || info.nIsoJoined <= 0) {
+      throw new Error(`[dtp3] invalid joined ISO count for year ${year}`);
+    }
+    if (!Number.isInteger(info.nIsoUniverse) || info.nIsoUniverse < info.nIsoJoined) {
+      throw new Error(`[dtp3] invalid universe ISO count for year ${year}`);
     }
   }
 }
