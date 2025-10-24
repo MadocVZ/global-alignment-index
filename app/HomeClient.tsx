@@ -1,0 +1,261 @@
+'use client'
+
+import { useEffect, useMemo, useState } from 'react'
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts'
+
+import { METRICS, type Metric, type YearValue } from '@/lib/metrics'
+import { computeRelative } from '@/lib/relative'
+import SourcesFooter from '@/components/SourcesFooter'
+
+// Temporarily hide metrics that are not part of the MVP dashboard view.
+const HIDDEN_METRIC_IDS = new Set(['internet_use'])
+const DISPLAY_METRICS = METRICS.filter(m => !HIDDEN_METRIC_IDS.has(m.id))
+const TRUTH_AND_CLARITY_METRIC_IDS = new Set([
+  'internet_shutdown_days',
+  'scientific_coauthorship_share',
+  'press_freedom_suppression_index',
+])
+const TRUTH_AND_CLARITY_METRICS = DISPLAY_METRICS.filter(m => TRUTH_AND_CLARITY_METRIC_IDS.has(m.id))
+const OTHER_METRICS = DISPLAY_METRICS.filter(m => !TRUTH_AND_CLARITY_METRIC_IDS.has(m.id))
+
+type Pt = { year: number; value: number }
+const fetchVersion = process.env.NEXT_PUBLIC_COMMIT_SHA ?? Date.now().toString()
+
+type HomeClientProps = {
+  dtp3Series: YearValue[]
+}
+
+function unitFor(id: string): string {
+  const metric = METRICS.find(m => m.id === id)
+  return metric?.unit ?? ''
+}
+
+function precisionForUnit(unit: string): number {
+  if (unit === 'deaths per 100k') return 3
+  return 2
+}
+
+function formatValue(id: string, v: number): string {
+  const u = unitFor(id)
+  const precisionOverrides: Record<string, number> = {
+    firearm_stock_per_100: 3,
+    military_expenditure_per_capita: 1,
+    internet_shutdown_days: 1,
+    scientific_coauthorship_share: 1,
+    press_freedom_suppression_index: 1,
+  }
+  if (id === 'internet_use') return `${Math.round(v)}%`
+  const decimals = precisionOverrides[id] ?? precisionForUnit(u)
+  const formatted = v.toFixed(decimals)
+  return u ? `${formatted} ${u}` : formatted
+}
+
+async function load(metric: Metric): Promise<Pt[]> {
+  const base = metric.dataPath ?? `/data/${metric.id}.json`
+  const url = `${base}${base.includes('?') ? '&' : '?'}v=${fetchVersion}`
+  const res = await fetch(url, { cache: 'no-store' })
+  if (!res.ok) return []
+  return res.json()
+}
+
+type PtMaybe = { year: number; value: number | null | undefined }
+
+function prepSeriesForPlot(series: PtMaybe[]): PtMaybe[] {
+  return [...series]
+    .sort((a, b) => a.year - b.year)
+    .map(p => {
+      const v = p?.value as number | null | undefined
+      return Number.isFinite(v) && (v as number) > 0
+        ? { year: p.year, value: v as number }
+        : { year: p.year, value: null }
+    })
+}
+
+function getLatestNonMissingPoint(series: PtMaybe[]): PtMaybe | null {
+  for (let i = series.length - 1; i >= 0; i--) {
+    const v = series[i]?.value
+    if (Number.isFinite(v) && (v as number) > 0) return series[i]
+  }
+  return null
+}
+
+export default function HomeClient({ dtp3Series }: HomeClientProps) {
+  const [data, setData] = useState<Record<string, Pt[]>>(() => {
+    const base: Record<string, Pt[]> = {}
+    if (dtp3Series.length) {
+      base.dtp3_coverage = dtp3Series
+    }
+    return base
+  })
+  const [registry, setRegistry] = useState<Record<string, any>>({})
+
+  useEffect(() => {
+    if (dtp3Series.length) {
+      setData(prev => ({ ...prev, dtp3_coverage: dtp3Series }))
+    }
+  }, [dtp3Series])
+
+  useEffect(() => {
+    DISPLAY_METRICS.forEach(async m => {
+      if (m.id === 'dtp3_coverage') return
+      const series = await load(m)
+      setData(prev => ({ ...prev, [m.id]: series }))
+    })
+    ;(async () => {
+      const res = await fetch('/data/metrics_registry.json', { cache: 'no-store' })
+      if (res.ok) {
+        const arr = await res.json()
+        setRegistry(Object.fromEntries(arr.map((r: any) => [r.id, r])))
+      }
+    })()
+  }, [])
+
+  const aggregate = useMemo(() => {
+    const keys = Object.keys(data)
+    if (!keys.length) return []
+    const years = Array.from(new Set(keys.flatMap(k => data[k].map(p => p.year)))).sort()
+    const z = (arr: number[]) => {
+      const mean = arr.reduce((a, b) => a + b, 0) / arr.length
+      const sd = Math.sqrt(arr.reduce((a, b) => a + (b - mean) ** 2, 0) / arr.length) || 1
+      return arr.map(v => (v - mean) / sd)
+    }
+    const seriesZ: Record<string, Map<number, number>> = {}
+    keys.forEach(k => {
+      const vals = data[k].map(p => p.value)
+      const y = data[k].map(p => p.year)
+      const zs = z(vals)
+      seriesZ[k] = new Map(y.map((yy, i) => [yy, zs[i]]))
+    })
+    return years
+      .map(yy => {
+        const zs = keys.map(k => seriesZ[k].get(yy)).filter(v => v !== undefined) as number[]
+        if (!zs.length) return null
+        return { year: yy, value: Number((zs.reduce((a, b) => a + b, 0) / zs.length).toFixed(2)) }
+      })
+      .filter(Boolean) as Pt[]
+  }, [data])
+
+  const renderMetricCard = (m: Metric) => {
+    const k = m.id
+    const raw = data[k] || []
+    const reg = registry[k]
+    const series = prepSeriesForPlot(raw).map(p => ({ year: p.year, [k]: p.value }))
+    const metricIds = Object.keys(series[0] ?? {}).filter(id => id !== 'year')
+    const mid = metricIds.length === 1 ? metricIds[0] : undefined
+
+    return (
+      <div key={k} className="card p-4 shadow-sm">
+        {(() => {
+          const base = m.name ?? k
+          const titled = k === 'u5_mortality' ? `${base} (per 1,000 live births)` : base
+          return <h3 className="text-lg font-medium">{titled}</h3>
+        })()}
+        {m.subtitle ? <p className="text-sm opacity-70 mt-1">{m.subtitle}</p> : null}
+        <div className="w-full h-56 mt-3">
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={series}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="year" />
+              {mid === 'internet_use' ? (
+                <YAxis domain={[0, 100]} tickFormatter={v => formatValue(mid, v)} />
+              ) : mid ? (
+                <YAxis tickFormatter={v => formatValue(mid, v)} />
+              ) : (
+                <YAxis />
+              )}
+              {mid ? (
+                <Tooltip formatter={(val: any) => formatValue(mid, Number(val))} />
+              ) : (
+                <Tooltip />
+              )}
+              {mid ? (
+                <Line type="monotone" dataKey={mid} dot={false} />
+              ) : (
+                metricIds.map(id => <Line key={id} type="monotone" dataKey={id} dot={false} />)
+              )}
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+        <div className="mt-2 flex flex-wrap items-center gap-2 text-sm">
+          <span className="opacity-70">{m.domain}</span>
+          {(() => {
+            const dirKey = reg?.direction as string | undefined
+            const dirNorm = dirKey?.startsWith('up') ? 'up' : dirKey?.startsWith('down') ? 'down' : undefined
+            const label = dirNorm === 'up' ? '↑ better' : dirNorm === 'down' ? '↓ better' : null
+            if (!label) return null
+            return (
+              <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold uppercase tracking-wide text-slate-700">
+                {label}
+              </span>
+            )
+          })()}
+        </div>
+        {(() => {
+          const latest = getLatestNonMissingPoint(raw)
+          const latestValue = latest?.value
+          const latestYear = latest?.year
+          const canShowLatest = Number.isFinite(latestValue)
+          if (reg && canShowLatest && latestYear !== undefined) {
+            const rawVals = raw
+              .map(d => Number(d?.value))
+              .filter(v => Number.isFinite(v)) as number[]
+            const fallbackMin = rawVals.length ? Math.min(...rawVals) : (latestValue as number)
+            const fallbackMax = rawVals.length ? Math.max(...rawVals) : (latestValue as number)
+            const dirKey = (reg?.direction ?? 'up') as string
+            const dirNorm = dirKey.startsWith('down') ? 'down' : 'up'
+            const rel = computeRelative(latestValue as number, {
+              direction: dirNorm,
+              reference_min: reg?.reference_min ?? fallbackMin,
+              reference_max: reg?.reference_max ?? fallbackMax,
+              target: reg?.target,
+            })
+            return (
+              <p className="text-sm mt-1">
+                Latest ({latestYear}): {formatValue(k, latestValue as number)} · Relative: {Math.round(rel)}%
+              </p>
+            )
+          }
+          if (reg && !canShowLatest) {
+            return <p className="text-sm mt-1 text-amber-600">Awaiting recent data.</p>
+          }
+          return null
+        })()}
+      </div>
+    )
+  }
+
+  return (
+    <div className="space-y-8">
+      <section className="card p-4 shadow-sm">
+        <h2 className="text-xl font-semibold">Truth &amp; Clarity metrics</h2>
+        <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
+          {TRUTH_AND_CLARITY_METRICS.map(renderMetricCard)}
+        </div>
+      </section>
+
+      <section className="card p-4 shadow-sm">
+        <h2 className="text-xl font-semibold">Other metrics</h2>
+        <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
+          {OTHER_METRICS.map(renderMetricCard)}
+        </div>
+      </section>
+
+      <section className="card p-4 shadow-sm">
+        <h2 className="text-xl font-semibold">Aggregate index (β)</h2>
+        <div className="w-full h-64 mt-3">
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={aggregate}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="year" />
+              <YAxis />
+              <Tooltip />
+              <Line type="monotone" dataKey="value" dot={false} />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+      </section>
+
+      <SourcesFooter />
+    </div>
+  )
+}

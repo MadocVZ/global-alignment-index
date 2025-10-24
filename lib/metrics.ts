@@ -1,5 +1,42 @@
 export type Direction = 'up_is_better' | 'down_is_better'
 
+export type YearValue = { year: number; value: number }
+type AnyPoint = { year?: number; date?: number; value?: number; coverage?: number; [k: string]: any }
+
+// Adapter to align validator-friendly coverage feeds with UI expectations.
+// Keep schema expectations in sync with scripts/validate-datasets.cjs.
+export function toYearValuePercent(raw: AnyPoint[]): YearValue[] {
+  if (!Array.isArray(raw)) return []
+  const out = raw
+    .map(d => {
+      const year = Number(d.year ?? d.date)
+      const percent =
+        typeof d.value === 'number'
+          ? d.value
+          : typeof d.coverage === 'number'
+          ? Math.round(d.coverage * 1000) / 10
+          : NaN
+      return { year, value: percent }
+    })
+    .filter(p => Number.isInteger(p.year) && Number.isFinite(p.value))
+    .sort((a, b) => a.year - b.year)
+  return out
+}
+
+export async function loadSeriesPercent(path: string): Promise<YearValue[]> {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}${path}`, {
+    cache: 'no-store' as RequestCache,
+  })
+  if (!res.ok) {
+    console.warn('[metrics] failed to load series', path, res.status, res.statusText)
+    return []
+  }
+  const raw = await res.json()
+  const series = toYearValuePercent(raw)
+  console.log('[metrics] loaded', path, 'len=', series.length, 'first=', series[0], 'last=', series.at(-1))
+  return series
+}
+
 export type Metric = {
   id: string
   name: string
