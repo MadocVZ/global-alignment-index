@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises'
 
-import { toYearValuePercent } from '../lib/metrics'
+import { toYearValuePercent } from '../lib/metrics.js'
 
 ;(async () => {
   const raw = JSON.parse(await fs.readFile('public/data/dtp3_coverage.json', 'utf8'))
