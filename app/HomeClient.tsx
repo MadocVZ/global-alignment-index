@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts'
 
-import { METRICS, type Metric, type YearValue } from '@/lib/metrics-shared'
+import { METRICS, toYearValuePercent, type Metric, type YearValue } from '@/lib/metrics-shared'
 import { computeRelative } from '@/lib/relative'
 import SourcesFooter from '@/components/SourcesFooter'
 
@@ -90,8 +90,28 @@ export default function HomeClient({ dtp3Series }: HomeClientProps) {
   const [registry, setRegistry] = useState<Record<string, any>>({})
 
   useEffect(() => {
+    let cancelled = false
     if (dtp3Series.length) {
       setData(prev => ({ ...prev, dtp3_coverage: dtp3Series }))
+      return () => {
+        cancelled = true
+      }
+    }
+    ;(async () => {
+      try {
+        const res = await fetch(`/data/dtp3_coverage.json?v=${fetchVersion}`, { cache: 'no-store' })
+        if (!res.ok) return
+        const raw = await res.json()
+        const series = toYearValuePercent(raw)
+        console.log('[HomeClient] Fallback loaded DTP3:', series.length, 'first=', series[0], 'last=', series.at(-1))
+        if (!series.length || cancelled) return
+        setData(prev => ({ ...prev, dtp3_coverage: series }))
+      } catch {
+        // noop
+      }
+    })()
+    return () => {
+      cancelled = true
     }
   }, [dtp3Series])
 
