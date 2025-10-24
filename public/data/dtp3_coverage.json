@@ -1,0 +1,212 @@
+[
+  {
+    "year": 1990,
+    "coverage": 0.7528,
+    "n_iso": 187,
+    "n_pop": 243
+  },
+  {
+    "year": 1991,
+    "coverage": 0.709,
+    "n_iso": 188,
+    "n_pop": 243
+  },
+  {
+    "year": 1992,
+    "coverage": 0.6974,
+    "n_iso": 207,
+    "n_pop": 243
+  },
+  {
+    "year": 1993,
+    "coverage": 0.6988,
+    "n_iso": 212,
+    "n_pop": 243
+  },
+  {
+    "year": 1994,
+    "coverage": 0.7227,
+    "n_iso": 213,
+    "n_pop": 243
+  },
+  {
+    "year": 1995,
+    "coverage": 0.7244,
+    "n_iso": 213,
+    "n_pop": 243
+  },
+  {
+    "year": 1996,
+    "coverage": 0.7203,
+    "n_iso": 213,
+    "n_pop": 243
+  },
+  {
+    "year": 1997,
+    "coverage": 0.7143,
+    "n_iso": 214,
+    "n_pop": 243
+  },
+  {
+    "year": 1998,
+    "coverage": 0.7137,
+    "n_iso": 214,
+    "n_pop": 243
+  },
+  {
+    "year": 1999,
+    "coverage": 0.7184,
+    "n_iso": 216,
+    "n_pop": 243
+  },
+  {
+    "year": 2000,
+    "coverage": 0.7252,
+    "n_iso": 216,
+    "n_pop": 243
+  },
+  {
+    "year": 2001,
+    "coverage": 0.7321,
+    "n_iso": 216,
+    "n_pop": 243
+  },
+  {
+    "year": 2002,
+    "coverage": 0.7293,
+    "n_iso": 217,
+    "n_pop": 243
+  },
+  {
+    "year": 2003,
+    "coverage": 0.7463,
+    "n_iso": 217,
+    "n_pop": 243
+  },
+  {
+    "year": 2004,
+    "coverage": 0.7669,
+    "n_iso": 217,
+    "n_pop": 243
+  },
+  {
+    "year": 2005,
+    "coverage": 0.7756,
+    "n_iso": 217,
+    "n_pop": 243
+  },
+  {
+    "year": 2006,
+    "coverage": 0.789,
+    "n_iso": 218,
+    "n_pop": 243
+  },
+  {
+    "year": 2007,
+    "coverage": 0.7897,
+    "n_iso": 218,
+    "n_pop": 243
+  },
+  {
+    "year": 2008,
+    "coverage": 0.8147,
+    "n_iso": 218,
+    "n_pop": 243
+  },
+  {
+    "year": 2009,
+    "coverage": 0.8345,
+    "n_iso": 218,
+    "n_pop": 243
+  },
+  {
+    "year": 2010,
+    "coverage": 0.8387,
+    "n_iso": 218,
+    "n_pop": 243
+  },
+  {
+    "year": 2011,
+    "coverage": 0.8489,
+    "n_iso": 219,
+    "n_pop": 243
+  },
+  {
+    "year": 2012,
+    "coverage": 0.8423,
+    "n_iso": 219,
+    "n_pop": 243
+  },
+  {
+    "year": 2013,
+    "coverage": 0.8376,
+    "n_iso": 219,
+    "n_pop": 243
+  },
+  {
+    "year": 2014,
+    "coverage": 0.8465,
+    "n_iso": 219,
+    "n_pop": 243
+  },
+  {
+    "year": 2015,
+    "coverage": 0.8479,
+    "n_iso": 219,
+    "n_pop": 243
+  },
+  {
+    "year": 2016,
+    "coverage": 0.8577,
+    "n_iso": 219,
+    "n_pop": 243
+  },
+  {
+    "year": 2017,
+    "coverage": 0.8581,
+    "n_iso": 219,
+    "n_pop": 243
+  },
+  {
+    "year": 2018,
+    "coverage": 0.8634,
+    "n_iso": 219,
+    "n_pop": 243
+  },
+  {
+    "year": 2019,
+    "coverage": 0.8658,
+    "n_iso": 219,
+    "n_pop": 243
+  },
+  {
+    "year": 2020,
+    "coverage": 0.8358,
+    "n_iso": 219,
+    "n_pop": 243
+  },
+  {
+    "year": 2021,
+    "coverage": 0.8199,
+    "n_iso": 219,
+    "n_pop": 243
+  },
+  {
+    "year": 2022,
+    "coverage": 0.8515,
+    "n_iso": 219,
+    "n_pop": 243
+  },
+  {
+    "year": 2023,
+    "coverage": 0.8438,
+    "n_iso": 219,
+    "n_pop": 243
+  },
+  {
+    "year": 2024,
+    "coverage": 0.8479,
+    "n_iso": 218,
+    "n_pop": 243
+  }
+]

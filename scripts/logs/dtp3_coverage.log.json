@@ -1,0 +1,305 @@
+{
+  "id": "dtp3_coverage",
+  "rows": 7532,
+  "years": {
+    "min": 1990,
+    "max": 2024
+  },
+  "global": {
+    "min": 69.74,
+    "max": 86.58,
+    "latest": {
+      "year": 2024,
+      "value": 84.79
+    }
+  },
+  "coverage": [
+    {
+      "year": 1990,
+      "pop_share": 0.971,
+      "coverage_ok": true,
+      "value_percent": 75.28,
+      "n_iso_joined": 187,
+      "n_iso_universe": 243
+    },
+    {
+      "year": 1991,
+      "pop_share": 0.971,
+      "coverage_ok": true,
+      "value_percent": 70.9,
+      "n_iso_joined": 188,
+      "n_iso_universe": 243
+    },
+    {
+      "year": 1992,
+      "pop_share": 0.998,
+      "coverage_ok": true,
+      "value_percent": 69.74,
+      "n_iso_joined": 207,
+      "n_iso_universe": 243
+    },
+    {
+      "year": 1993,
+      "pop_share": 0.999,
+      "coverage_ok": true,
+      "value_percent": 69.88,
+      "n_iso_joined": 212,
+      "n_iso_universe": 243
+    },
+    {
+      "year": 1994,
+      "pop_share": 0.999,
+      "coverage_ok": true,
+      "value_percent": 72.27,
+      "n_iso_joined": 213,
+      "n_iso_universe": 243
+    },
+    {
+      "year": 1995,
+      "pop_share": 0.999,
+      "coverage_ok": true,
+      "value_percent": 72.44,
+      "n_iso_joined": 213,
+      "n_iso_universe": 243
+    },
+    {
+      "year": 1996,
+      "pop_share": 0.999,
+      "coverage_ok": true,
+      "value_percent": 72.03,
+      "n_iso_joined": 213,
+      "n_iso_universe": 243
+    },
+    {
+      "year": 1997,
+      "pop_share": 0.999,
+      "coverage_ok": true,
+      "value_percent": 71.43,
+      "n_iso_joined": 214,
+      "n_iso_universe": 243
+    },
+    {
+      "year": 1998,
+      "pop_share": 0.999,
+      "coverage_ok": true,
+      "value_percent": 71.37,
+      "n_iso_joined": 214,
+      "n_iso_universe": 243
+    },
+    {
+      "year": 1999,
+      "pop_share": 0.999,
+      "coverage_ok": true,
+      "value_percent": 71.84,
+      "n_iso_joined": 216,
+      "n_iso_universe": 243
+    },
+    {
+      "year": 2000,
+      "pop_share": 0.999,
+      "coverage_ok": true,
+      "value_percent": 72.52,
+      "n_iso_joined": 216,
+      "n_iso_universe": 243
+    },
+    {
+      "year": 2001,
+      "pop_share": 0.999,
+      "coverage_ok": true,
+      "value_percent": 73.21,
+      "n_iso_joined": 216,
+      "n_iso_universe": 243
+    },
+    {
+      "year": 2002,
+      "pop_share": 0.999,
+      "coverage_ok": true,
+      "value_percent": 72.93,
+      "n_iso_joined": 217,
+      "n_iso_universe": 243
+    },
+    {
+      "year": 2003,
+      "pop_share": 0.999,
+      "coverage_ok": true,
+      "value_percent": 74.63,
+      "n_iso_joined": 217,
+      "n_iso_universe": 243
+    },
+    {
+      "year": 2004,
+      "pop_share": 0.999,
+      "coverage_ok": true,
+      "value_percent": 76.69,
+      "n_iso_joined": 217,
+      "n_iso_universe": 243
+    },
+    {
+      "year": 2005,
+      "pop_share": 0.999,
+      "coverage_ok": true,
+      "value_percent": 77.56,
+      "n_iso_joined": 217,
+      "n_iso_universe": 243
+    },
+    {
+      "year": 2006,
+      "pop_share": 0.999,
+      "coverage_ok": true,
+      "value_percent": 78.9,
+      "n_iso_joined": 218,
+      "n_iso_universe": 243
+    },
+    {
+      "year": 2007,
+      "pop_share": 0.999,
+      "coverage_ok": true,
+      "value_percent": 78.97,
+      "n_iso_joined": 218,
+      "n_iso_universe": 243
+    },
+    {
+      "year": 2008,
+      "pop_share": 0.999,
+      "coverage_ok": true,
+      "value_percent": 81.47,
+      "n_iso_joined": 218,
+      "n_iso_universe": 243
+    },
+    {
+      "year": 2009,
+      "pop_share": 0.999,
+      "coverage_ok": true,
+      "value_percent": 83.45,
+      "n_iso_joined": 218,
+      "n_iso_universe": 243
+    },
+    {
+      "year": 2010,
+      "pop_share": 0.999,
+      "coverage_ok": true,
+      "value_percent": 83.87,
+      "n_iso_joined": 218,
+      "n_iso_universe": 243
+    },
+    {
+      "year": 2011,
+      "pop_share": 1,
+      "coverage_ok": true,
+      "value_percent": 84.89,
+      "n_iso_joined": 219,
+      "n_iso_universe": 243
+    },
+    {
+      "year": 2012,
+      "pop_share": 1,
+      "coverage_ok": true,
+      "value_percent": 84.23,
+      "n_iso_joined": 219,
+      "n_iso_universe": 243
+    },
+    {
+      "year": 2013,
+      "pop_share": 1,
+      "coverage_ok": true,
+      "value_percent": 83.76,
+      "n_iso_joined": 219,
+      "n_iso_universe": 243
+    },
+    {
+      "year": 2014,
+      "pop_share": 1,
+      "coverage_ok": true,
+      "value_percent": 84.65,
+      "n_iso_joined": 219,
+      "n_iso_universe": 243
+    },
+    {
+      "year": 2015,
+      "pop_share": 1,
+      "coverage_ok": true,
+      "value_percent": 84.79,
+      "n_iso_joined": 219,
+      "n_iso_universe": 243
+    },
+    {
+      "year": 2016,
+      "pop_share": 1,
+      "coverage_ok": true,
+      "value_percent": 85.77,
+      "n_iso_joined": 219,
+      "n_iso_universe": 243
+    },
+    {
+      "year": 2017,
+      "pop_share": 1,
+      "coverage_ok": true,
+      "value_percent": 85.81,
+      "n_iso_joined": 219,
+      "n_iso_universe": 243
+    },
+    {
+      "year": 2018,
+      "pop_share": 1,
+      "coverage_ok": true,
+      "value_percent": 86.34,
+      "n_iso_joined": 219,
+      "n_iso_universe": 243
+    },
+    {
+      "year": 2019,
+      "pop_share": 1,
+      "coverage_ok": true,
+      "value_percent": 86.58,
+      "n_iso_joined": 219,
+      "n_iso_universe": 243
+    },
+    {
+      "year": 2020,
+      "pop_share": 1,
+      "coverage_ok": true,
+      "value_percent": 83.58,
+      "n_iso_joined": 219,
+      "n_iso_universe": 243
+    },
+    {
+      "year": 2021,
+      "pop_share": 1,
+      "coverage_ok": true,
+      "value_percent": 81.99,
+      "n_iso_joined": 219,
+      "n_iso_universe": 243
+    },
+    {
+      "year": 2022,
+      "pop_share": 1,
+      "coverage_ok": true,
+      "value_percent": 85.15,
+      "n_iso_joined": 219,
+      "n_iso_universe": 243
+    },
+    {
+      "year": 2023,
+      "pop_share": 1,
+      "coverage_ok": true,
+      "value_percent": 84.38,
+      "n_iso_joined": 219,
+      "n_iso_universe": 243
+    },
+    {
+      "year": 2024,
+      "pop_share": 1,
+      "coverage_ok": true,
+      "value_percent": 84.79,
+      "n_iso_joined": 218,
+      "n_iso_universe": 243
+    }
+  ],
+  "dropped_out_of_bounds": 0,
+  "range_warning": false,
+  "continuity_warning": false,
+  "stale": false,
+  "schema": "year,value(%)",
+  "source": "cache",
+  "ts": "2025-10-24T12:23:03.345Z"
+}

@@ -1,72 +1,60 @@
-export type Direction = 'up_is_better' | 'down_is_better'
+import { METRICS, toYearValuePercent } from './metrics-shared.js'
+import type { AnyPoint, Direction, Metric, YearValue } from './metrics-shared.js'
 
-export type Metric = {
-  id: string
-  name: string
-  domain: string
-  unit: string
-  direction: Direction
-  source: string
-  dataPath?: string
-  subtitle?: string
-  detailPath?: string
+async function readPublicJson<T = unknown>(rel: string): Promise<T | null> {
+  try {
+    const { readFile } = await import('node:fs/promises')
+    const { join } = await import('node:path')
+    const clean = rel.replace(/^\/+/, '')
+    const file = join(process.cwd(), 'public', clean)
+    const txt = await readFile(file, 'utf8')
+    return JSON.parse(txt) as T
+  } catch (e) {
+    return null
+  }
 }
 
-export const METRICS: Metric[] = [
-  { id: 'co2_ppm', name: 'CO₂ concentration', domain: 'Climate & Environment', unit: 'ppm', direction: 'down_is_better', source: 'NOAA/ESRL' },
-  { id: 'life_expectancy', name: 'Life expectancy', domain: 'Health & Wellbeing', unit: 'years', direction: 'up_is_better', source: 'WHO/World Bank' },
-  { id: 'internet_use', name: 'Individuals using the internet', domain: 'Education & Digital', unit: '%', direction: 'up_is_better', source: 'ITU' },
-  { id: 'u5_mortality', name: 'Under-5 mortality', domain: 'Health & Wellbeing', unit: 'per 1,000 live births', direction: 'down_is_better', source: 'UN IGME / World Bank' },
-  { id: 'battle_deaths', name: 'Battle-related deaths', domain: 'Safety & Conflict', unit: 'deaths per 100k', direction: 'down_is_better', source: 'UCDP' },
-  {
-    id: 'death_registration_completeness',
-    name: 'Death registration completeness (%) Test',
-    domain: 'Truth & Clarity',
-    unit: '%',
-    direction: 'up_is_better',
-    source: 'World Bank WDI',
-  },
-  {
-    id: 'internet_shutdown_days',
-    name: 'Internet shutdown days',
-    domain: 'Truth & Clarity',
-    unit: 'days',
-    direction: 'down_is_better',
-    source: 'Access Now #KeepItOn / World Bank',
-    dataPath: '/data/internet_shutdown_days.json',
-    subtitle: 'Population-weighted average shutdown days per year',
-    detailPath: '/metrics/internet-shutdown-days',
-  },
-  {
-    id: 'scientific_coauthorship_share',
-    name: 'Scientific co-authorship share (%)',
-    domain: 'Truth & Clarity',
-    unit: '% of articles',
-    direction: 'up_is_better',
-    source: 'OpenAlex Works API',
-    dataPath: '/data/scientific_coauthorship_share.json',
-    subtitle: 'Share of articles with ≥2 affiliation countries',
-    detailPath: '/metrics/scientific-coauthorship-share',
-  },
-  {
-    id: 'press_freedom_suppression_index',
-    name: 'Press Freedom Suppression Index (RSF)',
-    domain: 'Truth & Clarity',
-    unit: 'index (0–100)',
-    direction: 'up_is_better',
-    source: 'Reporters Without Borders',
-    dataPath: '/data/press_freedom_suppression_index.json',
-    subtitle: 'Suppression = 100 − RSF score; population-weighted global mean',
-  },
-  { id: 'homicide_rate', name: 'Intentional homicide rate per 100 000', domain: 'Safety & Care', unit: 'per 100,000 people', direction: 'down_is_better', source: 'UNODC & WHO via WDI' },
-  {
-    id: 'military_expenditure_per_capita',
-    name: 'Military expenditure per capita (constant 2020 USD)',
-    domain: 'Safety & Care',
-    unit: 'USD per person',
-    direction: 'up_is_better',
-    source: 'SIPRI via World Bank WDI',
-    dataPath: '/data/military_expenditure_per_capita_constant_usd.json',
-  },
-  { id: 'firearm_stock_per_100', name: 'Firearm stock per 100 residents', domain: 'Safety & Care', unit: 'firearms per 100 residents', direction: 'up_is_better', source: 'Small Arms Survey; World Bank' },
-]
+export async function loadSeriesPercent(pathStr: string): Promise<YearValue[]> {
+  const fsData = await readPublicJson<AnyPoint[]>(pathStr)
+  let series: YearValue[] = []
+  if (fsData) {
+    series = toYearValuePercent(fsData)
+    console.log(
+      '[metrics/fs] loaded',
+      pathStr,
+      'len=',
+      series.length,
+      'sampleRawKeys=',
+      Array.isArray(fsData) && fsData[0] ? Object.keys(fsData[0]) : [],
+      'first=',
+      series[0],
+      'last=',
+      series.at(-1)
+    )
+    return series
+  }
+
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}${pathStr}`).catch(() => null as any)
+  if (!res?.ok) {
+    console.warn('[metrics/fetch] failed to load series', pathStr, res?.status, res?.statusText)
+    return []
+  }
+  const raw = (await res.json()) as AnyPoint[]
+  series = toYearValuePercent(raw)
+  console.log(
+    '[metrics/fetch] loaded',
+    pathStr,
+    'len=',
+    series.length,
+    'sampleRawKeys=',
+    Array.isArray(raw) && raw[0] ? Object.keys(raw[0]) : [],
+    'first=',
+    series[0],
+    'last=',
+    series.at(-1)
+  )
+  return series
+}
+
+export { METRICS, toYearValuePercent }
+export type { Direction, Metric, YearValue }
