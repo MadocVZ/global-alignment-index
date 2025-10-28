@@ -3,10 +3,10 @@
 ## Bilateral humanitarian aid per capita (USD)
 
 ```bash
-# API (default)
-npx ts-node scripts/fetch_humanitarian_aid_per_capita.ts
+# API (default, ESM-safe)
+tsx scripts/fetch_humanitarian_aid_per_capita.ts
 # CSV fallback (dev only)
-USE_OECD_CSV_FALLBACK=true npx ts-node scripts/fetch_humanitarian_aid_per_capita.ts --allow-fallback
+USE_OECD_CSV_FALLBACK=true tsx scripts/fetch_humanitarian_aid_per_capita.ts --allow-fallback
 npm run build
 ```
 
