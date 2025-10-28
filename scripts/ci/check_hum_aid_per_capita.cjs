@@ -23,8 +23,11 @@ function main() {
   }
 
   const { mode, rows, mean, coverage } = payload;
-  if (mode !== 'api') {
-    fail(`mode must equal "api" (received ${JSON.stringify(mode)})`);
+  if (mode !== 'api' && mode !== 'csv_fallback') {
+    fail(`mode must be "api" or "csv_fallback" (received ${JSON.stringify(mode)})`);
+  }
+  if (mode === 'csv_fallback') {
+    console.warn('[check:hum] WARN running with csv_fallback — API unreachable during this run.');
   }
 
   if (typeof rows !== 'number' || rows < 30) {
