@@ -57,3 +57,13 @@
 - Precision: 1 decimal (Math.round to one place via `toFixed(1)`).
 - Source: Reporters Without Borders — World Press Freedom Index CSV exports (2002 onward) with fixture/caching guardrails; transform = 100 − score.
 - Why capability: Captures systemic capacity to suppress truth and clarity via control of press freedoms.
+
+## Bilateral humanitarian aid per capita (USD)
+- **Definition:** Sum of bilateral ODA disbursements in current USD for OECD CRS humanitarian purpose codes 72010, 72040, and 72050; divide by World Bank WDI world population (SP.POP.TOTL).
+- **Exclusions:** Reconstruction (73010), disaster preparedness (740xx), in-donor refugee costs (93xxx), and any non-bilateral flows.
+- **Coverage gate:** Include a year only if reporting_bilateral_donors / eligible_bilateral_donors ≥ 0.90, using a donor-presence slice that covers all CRS purposes; years below the threshold are dropped and logged.
+- **Precision:** Values stored in full precision internally and rounded to 1 decimal in the published series.
+- **Why it matters:** Captures a cross-border care signal aligned with the International · Care · Tier-1 backbone.
+- **Sources:** OECD DAC CRS (humanitarian 720xx purpose codes); World Bank WDI SP.POP.TOTL.
+- **File:** `/public/data/humanitarian_aid_per_capita.json`.
+- Note: A “Humanitarian+” variant (adds 73010 & 74020) may be published later for comparison.

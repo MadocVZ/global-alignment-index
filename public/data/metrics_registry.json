@@ -169,5 +169,18 @@
     "precision": 1,
     "series": "global_yearly",
     "last_reviewed": "<CI will inject ISO date>"
+  },
+  {
+    "id": "humanitarian_aid_per_capita",
+    "name": "Bilateral humanitarian aid per capita (USD)",
+    "direction": "up",
+    "tier": 1,
+    "layer": "international",
+    "alignment_or_capability": "alignment",
+    "domain": "care",
+    "precision": 1,
+    "reference_min": 4,
+    "reference_max": 22,
+    "path": "/metrics/humanitarian-aid-per-capita"
   }
 ]

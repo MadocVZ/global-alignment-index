@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npx ts-node scripts/fetch_humanitarian_aid_per_capita.ts && npm run check:hum && next build",
     "start": "next start",
     "lint": "eslint . --max-warnings=0",
     "typecheck": "tsc -p scripts/tsconfig.json",
@@ -22,7 +22,8 @@
     "debug:dtp3": "tsx scripts/debug_print_first_item.ts",
     "peek:dtp3": "tsx scripts/peek_dtp3_ui.ts",
     "pipelines:firearm_stock_per_100": "node scripts/pipelines/firearm_stock_per_100.js",
-    "validate:sources": "node scripts/validate-sources.cjs"
+    "validate:sources": "node scripts/validate-sources.cjs",
+    "check:hum": "node scripts/ci/check_hum_aid_per_capita.cjs"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",

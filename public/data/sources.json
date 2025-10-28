@@ -306,5 +306,21 @@
       "public/data/press_freedom_suppression_index.json"
     ],
     "type": "derived"
+  },
+  "oecd.crs.720xx": {
+    "id": "oecd.crs.720xx",
+    "title": "OECD DAC CRS – Humanitarian purpose codes 72010/72040/72050",
+    "link": "https://stats.oecd.org/",
+    "license": "OECD Terms",
+    "notes": "Bilateral disbursements, current USD; excludes 73010/740xx in v1. API default; CSV sample only when USE_OECD_CSV_FALLBACK=true or --allow-fallback is passed.",
+    "last_reviewed": "2025-10-28"
+  },
+  "wdi.SP.POP.TOTL": {
+    "id": "wdi.SP.POP.TOTL",
+    "title": "World Development Indicators – Population, total (SP.POP.TOTL)",
+    "link": "https://databank.worldbank.org/source/world-development-indicators",
+    "license": "CC BY 4.0",
+    "notes": "World total used as denominator.",
+    "last_reviewed": "2025-10-28"
   }
 }
