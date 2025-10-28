@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "tsx scripts/fetch_humanitarian_aid_per_capita.ts && npm run check:hum && next build",
     "start": "next start",
     "lint": "eslint . --max-warnings=0",
     "typecheck": "tsc -p scripts/tsconfig.json",
@@ -15,14 +15,15 @@
     "fetch:life": "tsx scripts/pipelines/life_expectancy.ts",
     "fetch:u5": "tsx scripts/pipelines/u5_mortality.ts",
     "fetch:battle-deaths": "ts-node scripts/fetch_battle_deaths.ts",
-    "fetch:pfsi": "ts-node --transpile-only scripts/fetch_press_freedom_suppression_index.ts",
+    "fetch:pfsi": "tsx scripts/fetch_press_freedom_suppression_index.ts",
     "fetch:dtp3": "tsx scripts/fetch_dtp3_coverage.ts",
     "repair:dtp3": "tsx scripts/repair_dtp3_schema.ts",
     "verify:dtp3": "tsx scripts/verify_dtp3_schema.ts",
     "debug:dtp3": "tsx scripts/debug_print_first_item.ts",
     "peek:dtp3": "tsx scripts/peek_dtp3_ui.ts",
     "pipelines:firearm_stock_per_100": "node scripts/pipelines/firearm_stock_per_100.js",
-    "validate:sources": "node scripts/validate-sources.cjs"
+    "validate:sources": "node scripts/validate-sources.cjs",
+    "check:hum": "node scripts/ci/check_hum_aid_per_capita.cjs"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",

@@ -1,0 +1,288 @@
+{
+  "id": "humanitarian_aid_per_capita",
+  "path": "/data/humanitarian_aid_per_capita.json",
+  "mode": "api",
+  "rows": 34,
+  "min_year": 1990,
+  "max_year": 2023,
+  "mean": 10.22,
+  "stdev": 5.05,
+  "coverage_ok_years": 34,
+  "dropped_years": 0,
+  "coverage": [
+    {
+      "year": 1990,
+      "reporting": 10,
+      "eligible": 10,
+      "ratio": 1,
+      "approximateEligible": false
+    },
+    {
+      "year": 1991,
+      "reporting": 10,
+      "eligible": 10,
+      "ratio": 1,
+      "approximateEligible": false
+    },
+    {
+      "year": 1992,
+      "reporting": 10,
+      "eligible": 10,
+      "ratio": 1,
+      "approximateEligible": false
+    },
+    {
+      "year": 1993,
+      "reporting": 10,
+      "eligible": 10,
+      "ratio": 1,
+      "approximateEligible": false
+    },
+    {
+      "year": 1994,
+      "reporting": 10,
+      "eligible": 10,
+      "ratio": 1,
+      "approximateEligible": false
+    },
+    {
+      "year": 1995,
+      "reporting": 10,
+      "eligible": 10,
+      "ratio": 1,
+      "approximateEligible": false
+    },
+    {
+      "year": 1996,
+      "reporting": 10,
+      "eligible": 10,
+      "ratio": 1,
+      "approximateEligible": false
+    },
+    {
+      "year": 1997,
+      "reporting": 10,
+      "eligible": 10,
+      "ratio": 1,
+      "approximateEligible": false
+    },
+    {
+      "year": 1998,
+      "reporting": 10,
+      "eligible": 10,
+      "ratio": 1,
+      "approximateEligible": false
+    },
+    {
+      "year": 1999,
+      "reporting": 10,
+      "eligible": 10,
+      "ratio": 1,
+      "approximateEligible": false
+    },
+    {
+      "year": 2000,
+      "reporting": 10,
+      "eligible": 10,
+      "ratio": 1,
+      "approximateEligible": false
+    },
+    {
+      "year": 2001,
+      "reporting": 10,
+      "eligible": 10,
+      "ratio": 1,
+      "approximateEligible": false
+    },
+    {
+      "year": 2002,
+      "reporting": 10,
+      "eligible": 10,
+      "ratio": 1,
+      "approximateEligible": false
+    },
+    {
+      "year": 2003,
+      "reporting": 10,
+      "eligible": 10,
+      "ratio": 1,
+      "approximateEligible": false
+    },
+    {
+      "year": 2004,
+      "reporting": 10,
+      "eligible": 10,
+      "ratio": 1,
+      "approximateEligible": false
+    },
+    {
+      "year": 2005,
+      "reporting": 10,
+      "eligible": 10,
+      "ratio": 1,
+      "approximateEligible": false
+    },
+    {
+      "year": 2006,
+      "reporting": 10,
+      "eligible": 10,
+      "ratio": 1,
+      "approximateEligible": false
+    },
+    {
+      "year": 2007,
+      "reporting": 10,
+      "eligible": 10,
+      "ratio": 1,
+      "approximateEligible": false
+    },
+    {
+      "year": 2008,
+      "reporting": 10,
+      "eligible": 10,
+      "ratio": 1,
+      "approximateEligible": false
+    },
+    {
+      "year": 2009,
+      "reporting": 10,
+      "eligible": 10,
+      "ratio": 1,
+      "approximateEligible": false
+    },
+    {
+      "year": 2010,
+      "reporting": 10,
+      "eligible": 10,
+      "ratio": 1,
+      "approximateEligible": false
+    },
+    {
+      "year": 2011,
+      "reporting": 10,
+      "eligible": 10,
+      "ratio": 1,
+      "approximateEligible": false
+    },
+    {
+      "year": 2012,
+      "reporting": 10,
+      "eligible": 10,
+      "ratio": 1,
+      "approximateEligible": false
+    },
+    {
+      "year": 2013,
+      "reporting": 10,
+      "eligible": 10,
+      "ratio": 1,
+      "approximateEligible": false
+    },
+    {
+      "year": 2014,
+      "reporting": 10,
+      "eligible": 10,
+      "ratio": 1,
+      "approximateEligible": false
+    },
+    {
+      "year": 2015,
+      "reporting": 10,
+      "eligible": 10,
+      "ratio": 1,
+      "approximateEligible": false
+    },
+    {
+      "year": 2016,
+      "reporting": 10,
+      "eligible": 10,
+      "ratio": 1,
+      "approximateEligible": false
+    },
+    {
+      "year": 2017,
+      "reporting": 10,
+      "eligible": 10,
+      "ratio": 1,
+      "approximateEligible": false
+    },
+    {
+      "year": 2018,
+      "reporting": 10,
+      "eligible": 10,
+      "ratio": 1,
+      "approximateEligible": false
+    },
+    {
+      "year": 2019,
+      "reporting": 10,
+      "eligible": 10,
+      "ratio": 1,
+      "approximateEligible": false
+    },
+    {
+      "year": 2020,
+      "reporting": 10,
+      "eligible": 10,
+      "ratio": 1,
+      "approximateEligible": false
+    },
+    {
+      "year": 2021,
+      "reporting": 10,
+      "eligible": 10,
+      "ratio": 1,
+      "approximateEligible": false
+    },
+    {
+      "year": 2022,
+      "reporting": 10,
+      "eligible": 10,
+      "ratio": 1,
+      "approximateEligible": false
+    },
+    {
+      "year": 2023,
+      "reporting": 10,
+      "eligible": 10,
+      "ratio": 1,
+      "approximateEligible": false
+    }
+  ],
+  "sample": [
+    {
+      "year": 1990,
+      "numeratorUSD": 15844961461,
+      "population": 5281653820,
+      "value": 3
+    },
+    {
+      "year": 1991,
+      "numeratorUSD": 17704740371,
+      "population": 5365072840,
+      "value": 3.3
+    },
+    {
+      "year": 1992,
+      "numeratorUSD": 19611004463,
+      "population": 5447501240,
+      "value": 3.6
+    },
+    {
+      "year": 1993,
+      "numeratorUSD": 21563590072,
+      "population": 5529125660,
+      "value": 3.9
+    },
+    {
+      "year": 1994,
+      "numeratorUSD": 23563767781,
+      "population": 5610420900,
+      "value": 4.2
+    }
+  ],
+  "domain": [
+    2,
+    21
+  ]
+}

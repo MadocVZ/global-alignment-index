@@ -131,11 +131,16 @@ Initial releases focus on robust **global** and **country** series; dyadic cross
 
 ## Data sources & transparency
 
-- **Authoritative open sources** (World Bank, WHO/UNICEF, UNHCR/IDMC, EM-DAT, UNESCO, NOAA/NASA, UCDP, etc.).  
-- Each metric’s method & provenance is documented in `/docs/METHODS.md` and tracked in `/public/data/sources.json`.  
-- Data files are versioned in Git under `/public/data/<metric>.json`. The site reads these JSONs directly.  
+- **Authoritative open sources** (World Bank, WHO/UNICEF, UNHCR/IDMC, EM-DAT, UNESCO, NOAA/NASA, UCDP, etc.).
+- Each metric’s method & provenance is documented in `/docs/METHODS.md` and tracked in `/public/data/sources.json`.
+- Data files are versioned in Git under `/public/data/<metric>.json`. The site reads these JSONs directly.
 
 **Relative (0–100%)** uses per-metric `reference_min`, `reference_max`, and optional `target` from `/public/data/metrics_registry.json`.
+
+### Sources — Humanitarian Aid per Capita
+- **OECD DAC CRS (humanitarian purpose codes 72010/72040/72050)** — bilateral disbursements in current USD (license per OECD terms).
+- **World Bank WDI SP.POP.TOTL** — world population denominator (CC BY 4.0).
+- CSV is dev sample only; CI uses the OECD API by default.
 
 ---
 

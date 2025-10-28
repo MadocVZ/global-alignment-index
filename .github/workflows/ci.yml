@@ -23,7 +23,12 @@ jobs:
       - run: npm ci --include=dev --no-audit --no-fund
       - run: npm run lint
       - run: npm run typecheck
-      - run: npm run build
+      - name: Fetch humanitarian aid per capita (allow fallback)
+        run: USE_OECD_CSV_FALLBACK=true tsx scripts/fetch_humanitarian_aid_per_capita.ts
+      - name: Build
+        run: npm run build
+        env:
+          USE_OECD_CSV_FALLBACK: "true"
       - run: node scripts/validate-datasets.cjs
       - run: npm run validate:sources
 

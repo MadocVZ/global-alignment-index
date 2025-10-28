@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts'
 
@@ -23,6 +24,7 @@ const fetchVersion = process.env.NEXT_PUBLIC_COMMIT_SHA ?? Date.now().toString()
 
 type HomeClientProps = {
   dtp3Series: YearValue[]
+  humanitarianAidSeries: YearValue[]
 }
 
 function unitFor(id: string): string {
@@ -79,7 +81,7 @@ function getLatestNonMissingPoint(series: PtMaybe[]): PtMaybe | null {
   return null
 }
 
-export default function HomeClient({ dtp3Series }: HomeClientProps) {
+export default function HomeClient({ dtp3Series, humanitarianAidSeries }: HomeClientProps) {
   const [data, setData] = useState<Record<string, Pt[]>>(() => {
     const base: Record<string, Pt[]> = {}
     if (dtp3Series.length) {
@@ -244,8 +246,53 @@ export default function HomeClient({ dtp3Series }: HomeClientProps) {
     )
   }
 
+  const humanitarianSeries = useMemo(
+    () => [...(humanitarianAidSeries ?? [])].sort((a, b) => a.year - b.year),
+    [humanitarianAidSeries],
+  )
+  const humanitarianLength = humanitarianSeries.length
+  const humanitarianStartYear = humanitarianSeries[0]?.year
+  const humanitarianLatest = humanitarianSeries.at(-1)
+  const humanitarianEndYear = humanitarianLatest?.year
+  const humanitarianValue = humanitarianLatest?.value
+  const humanitarianValueDisplay = Number.isFinite(humanitarianValue)
+    ? `$${(humanitarianValue as number).toFixed(1)}`
+    : '—'
+  const humanitarianSpan =
+    typeof humanitarianStartYear === 'number' && typeof humanitarianEndYear === 'number'
+      ? humanitarianStartYear === humanitarianEndYear
+        ? `${humanitarianStartYear}`
+        : `${humanitarianStartYear}–${humanitarianEndYear}`
+      : `Series length: ${humanitarianLength}`
+  const humanitarianEmpty = !Number.isFinite(humanitarianValue)
+
   return (
     <div className="space-y-8">
+      <section className="card p-4 shadow-sm">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h2 className="text-xl font-semibold">Care highlight</h2>
+            <p className="text-sm opacity-70">Bilateral humanitarian aid per capita (USD)</p>
+          </div>
+          <Link
+            href="/metrics/humanitarian-aid-per-capita"
+            className="flex flex-1 flex-col gap-1 rounded-lg border border-slate-200 bg-slate-50 p-4 text-slate-800 shadow-sm transition hover:border-slate-300 hover:bg-white sm:max-w-md"
+          >
+            <span className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+              Latest value
+            </span>
+            <span className="text-3xl font-semibold leading-tight">{humanitarianValueDisplay}</span>
+            <span className="text-sm text-slate-600">{humanitarianSpan}</span>
+            <span className="text-xs text-slate-500">Tap to view full humanitarian trend →</span>
+          </Link>
+        </div>
+        {humanitarianEmpty ? (
+          <p className="mt-3 text-sm text-amber-600">
+            Awaiting humanitarian data. (series length: {humanitarianLength})
+          </p>
+        ) : null}
+      </section>
+
       <section className="card p-4 shadow-sm">
         <h2 className="text-xl font-semibold">Truth &amp; Clarity metrics</h2>
         <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-2">

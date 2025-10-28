@@ -18,3 +18,4 @@ export type Metric = {
 export declare const METRICS: Metric[]
 
 export declare function toYearValuePercent(raw: AnyPoint[]): YearValue[]
+export declare function toYearValueNumber(raw: AnyPoint[]): YearValue[]
